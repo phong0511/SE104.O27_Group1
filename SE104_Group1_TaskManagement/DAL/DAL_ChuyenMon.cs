@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace DAL
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                Debug.Write(ex.ToString());
                 macm = "";
                 conn.Close();
                 return macm;
@@ -50,7 +51,7 @@ namespace DAL
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                Debug.Write(ex.ToString());
                 tencm = "";
                 conn.Close();
                 return tencm;
@@ -78,13 +79,13 @@ namespace DAL
             }
             catch (SqlException e)
             {
-                Console.Write(e.Message);
+                Debug.Write(e.ToString());
                 conn.Close();
                 return (false, e.Message);
             }
             catch (Exception ex)
             {
-                Console.Write(ex.Message);
+                Debug.Write(ex.ToString());
                 conn.Close();
                 return (false, ex.Message);
             }
@@ -115,13 +116,13 @@ namespace DAL
             }
             catch (SqlException e)
             {
-                Console.Write(e.Message);
+                Debug.Write(e.ToString());
                 conn.Close();
                 return (false, e.Message);
             }
             catch (Exception ex)
             {
-                Console.Write(ex.Message);
+                Debug.Write(ex.ToString());
                 conn.Close();
                 return (false, ex.Message);
             }
@@ -148,13 +149,13 @@ namespace DAL
             }
             catch (SqlException e)
             {
-                Console.Write(e.Message);
+                Debug.Write(e.ToString());
                 conn.Close();
                 return (false, e.Message);
             }
             catch (Exception ex)
             {
-                Console.Write(ex.Message);
+                Debug.Write(ex.ToString());
                 conn.Close();
                 return (false, ex.Message);
             }
@@ -180,7 +181,7 @@ namespace DAL
 
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Debug.WriteLine(ex.ToString());
                 conn.Close();
                 return dt;
             }
