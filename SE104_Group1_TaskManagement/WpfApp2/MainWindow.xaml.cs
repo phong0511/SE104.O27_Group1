@@ -29,24 +29,19 @@ namespace WpfApp2
         public MainWindow()
         {
             InitializeComponent();
-            datagrid.ItemsSource = nvManager.Read();
-            foreach (DataRow row in cmManager.LoadTenCM().Rows)
+            datagrid.ItemsSource = nvManager.GetAllData();
+            foreach (DataRow row in cmManager.GetAllData().Rows)
             {
-                CM.Items.Add(row[0].ToString()) ;
+                CM.Items.Add(row[1].ToString()) ;
             }    
         }
-        public void button_click()
-        {
-           
-        }
-
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            DTO_NhanVien nhanvien = new DTO_NhanVien("", "","","","",2,"Writer","");
-            
-            nvManager.Add(nhanvien);
-
-            this.datagrid.ItemsSource = nvManager.Read();
+            int level;
+            level = int.TryParse(LVL.Text, out level) ? level : -1;
+            DTO_NhanVien nhanvien = new DTO_NhanVien("", TENNV.Text, EMAIL.Text, PHONE.Text, DOB.Text, level, cmManager.ConvertNametoID(CM.Text), NOTE.Text);
+            nvManager.AddData(nhanvien);
+            this.datagrid.ItemsSource = nvManager.GetAllData();
         }
 
         private void datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -61,7 +56,7 @@ namespace WpfApp2
                     TENNV.Text = member.TENNV;
                     PHONE.Text = member.PHONE;
                     EMAIL.Text = member.EMAIL;
-                    CM.Text = member.CM;
+                    CM.Text = cmManager.ConvertIDtoName(member.MACM);
                     NOTE.Text = member.GHICHU;
                     LVL.Text = member.LEVEL.ToString();
                     DOB.Text = member.NGAYSINH;
@@ -73,12 +68,20 @@ namespace WpfApp2
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             DAL_NhanVien dal = new DAL_NhanVien();
-            if (dal.Delete(MANV.Text))
-                Console.WriteLine("COMPLETED");
-            else Console.WriteLine("FAIL");
+            (bool, string) res = dal.DeleteByID(MANV.Text);
+            if (res.Item1)
+                Console.Write(res.Item2);
+            else Console.Write(res.Item2);
 
-            this.datagrid.ItemsSource = nvManager.Read();
+            this.datagrid.ItemsSource = nvManager.GetAllData();
 
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            DTO_NhanVien nhanvien = new DTO_NhanVien(MANV.Text, TENNV.Text, EMAIL.Text, PHONE.Text, DOB.Text, int.Parse(LVL.Text), cmManager.ConvertNametoID(CM.Text), NOTE.Text);
+            nvManager.SetData(nhanvien);
+            this.datagrid.ItemsSource = nvManager.GetAllData();
         }
     }
 }

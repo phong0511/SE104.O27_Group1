@@ -8,6 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Button Click="Button_Click_1" Margin="556,384,157,0">lmao</Button>
+        <Button Click="Button_Click_3"  Margin="437,384,256,0">Changelmao</Button>
         <Button Click="Button_Click_2"  Margin="648,384,65,0">Dellmao</Button>
         <DataGrid x:Name="datagrid" Margin="338,50,50,50" SelectionChanged="datagrid_SelectionChanged"></DataGrid>
         <Grid Margin="48,0,467,0" Height="334" VerticalAlignment="Center">

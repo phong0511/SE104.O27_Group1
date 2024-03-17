@@ -12,8 +12,47 @@ namespace DAL
 {
     public class DAL_NhanVien:BaseClass
     {
-        DAL_ChuyenMon cm = new DAL_ChuyenMon();
-        public bool Delete (string MANV)
+        public (bool, string) SetData(DTO_NhanVien nv_new)
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "UPDATE NHANVIEN SET HOTEN=@hoten, EMAIL=@email, SODT=@sdt, NGSINH=@ngaysinh, LVL=@lvl, MACM=@macm, GHICHU=@ghichu WHERE MANV=@manv";
+                var command = new SqlCommand(
+                    queryString,
+                    conn);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@manv", nv_new.MANV);
+                command.Parameters.AddWithValue("@hoten", nv_new.TENNV);
+                command.Parameters.AddWithValue("@email", nv_new.EMAIL);
+                command.Parameters.AddWithValue("@sdt", nv_new.PHONE);
+                command.Parameters.AddWithValue("@ngaysinh", nv_new.NGAYSINH);
+                command.Parameters.AddWithValue("@lvl", nv_new.LEVEL);
+                command.Parameters.AddWithValue("@macm", nv_new.MACM);
+                command.Parameters.AddWithValue("@ghichu", nv_new.GHICHU);
+                if (command.ExecuteNonQuery() > 0)
+                {
+                    conn.Close();
+                    return (true, "Sửa thành công.");
+                }
+
+                conn.Close();
+                return (false, "Sửa không thành công.");
+            }
+            catch (SqlException e)
+            {
+                Console.Write(e.Message);
+                conn.Close();
+                return (false, e.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+                conn.Close();
+                return (false, ex.Message);
+            }
+        }
+        public (bool, string) DeleteByID (string MANV)
         {
             try
             {
@@ -27,19 +66,25 @@ namespace DAL
                 if (command.ExecuteNonQuery() > 0)
                 {
                     conn.Close();
-                    return true;
+                    return (true, "Xóa nhân viên thành công.");
                 }
                 conn.Close();
-                return false;
+                return (false, "Xóa nhân viên không thành công.");
             }
-            catch (Exception e)
+            catch (SqlException e)
             {
                 Console.Write(e.Message);
                 conn.Close();
-                return false;
+                return (false, e.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+                conn.Close();
+                return (false, ex.Message);
             }
         }
-        public ObservableCollection<DTO_NhanVien> Read()
+        public ObservableCollection<DTO_NhanVien> GetAllData()
         {
             ObservableCollection<DTO_NhanVien> collection = new ObservableCollection<DTO_NhanVien> ();
             DataTable dt = new DataTable();
@@ -49,7 +94,7 @@ namespace DAL
                 string queryString = "SELECT MANV as 'Mã số', HOTEN as 'Họ tên', EMAIL as 'Email', SODT as 'Số điện thoại',  " +
                     "CONVERT(VARCHAR(10), NGSINH, 104) as 'Ngày sinh', " +
                     "LVL as 'Level', TENCM as 'Chuyên môn', GHICHU as 'Ghi chú' " +
-                    "FROM NHANVIEN INNER JOIN CHUYENMON ON NHANVIEN.MACM = CHUYENMON.MACM";
+                    "FROM NHANVIEN LEFT JOIN CHUYENMON ON NHANVIEN.MACM = CHUYENMON.MACM";
 
                 var command = new SqlCommand(
                     queryString,
@@ -69,7 +114,7 @@ namespace DAL
                     int level = -1;
                     int.TryParse(row[dt.Columns[5]].ToString(), out level);
                     nhanVien.LEVEL = level;
-                    nhanVien.CM = row[dt.Columns[6]].ToString();
+                    nhanVien.MACM = row[dt.Columns[6]].ToString();
                     nhanVien.GHICHU = row[dt.Columns[7]].ToString();
 
                     collection.Add(nhanVien);
@@ -84,7 +129,50 @@ namespace DAL
             }
             
         }
+        public (bool, string) AddData (DTO_NhanVien nhanVien)
+        {
+            try
+            {
+                string manv = getCrnID();
 
+                conn.Open();
+                string queryString = "INSERT INTO NHANVIEN VALUES (@manv, @hoten, @email, @sdt, CONVERT(smalldatetime,@ngaysinh, 104), @lvl, @macm, @ghichu)";
+                var command = new SqlCommand(
+                    queryString,
+                    conn);
+
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@manv", manv);
+                command.Parameters.AddWithValue("@hoten", nhanVien.TENNV);
+                command.Parameters.AddWithValue("@email", nhanVien.EMAIL);
+                command.Parameters.AddWithValue("@sdt", nhanVien.PHONE);
+                command.Parameters.AddWithValue("@ngaysinh", nhanVien.NGAYSINH);
+                command.Parameters.AddWithValue("@lvl", nhanVien.LEVEL);
+                command.Parameters.AddWithValue("@macm", nhanVien.MACM);
+                command.Parameters.AddWithValue("@ghichu", nhanVien.GHICHU);
+
+                if (command.ExecuteNonQuery() > 0)
+                {
+                    conn.Close();
+                    return (true, "Thêm nhân viên thành công!");
+                }
+
+                conn.Close();
+                return (false, "Thêm không thành công!");
+            }
+            catch (SqlException e)
+            {
+                Console.Write(e.Message);
+                conn.Close();
+                return (false, e.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+                conn.Close();
+                return (false, ex.Message);
+            }
+        }
         string getCrnID()
         {
             try
@@ -102,51 +190,12 @@ namespace DAL
                 conn.Close();
                 return "NV" + number.ToString("0000");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Console.WriteLine (ex.Message);
+                Console.WriteLine(ex.Message);
                 conn.Close();
                 return "";
             }
-        }
-        public bool Add(DTO_NhanVien nhanVien)
-        {
-            //try
-            //{
-                string macm = cm.ConvertNametoID(nhanVien.CM);
-                string manv = getCrnID();
-
-                conn.Open();
-                string queryString = "INSERT INTO NHANVIEN VALUES (@manv, @hoten, @email, @sdt, @ngaysinh, @lvl, @macm, @ghichu)";
-                var command = new SqlCommand(
-                    queryString,
-                    conn);
-
-                command.Parameters.Clear();
-                command.Parameters.AddWithValue("@manv", manv);
-                command.Parameters.AddWithValue("@hoten", nhanVien.TENNV);
-                command.Parameters.AddWithValue("@email", nhanVien.EMAIL);
-                command.Parameters.AddWithValue("@sdt", nhanVien.PHONE);
-                command.Parameters.AddWithValue("@ngaysinh", nhanVien.NGAYSINH);
-                command.Parameters.AddWithValue("@lvl", nhanVien.LEVEL);
-                command.Parameters.AddWithValue("@macm", macm);
-                command.Parameters.AddWithValue("@ghichu", nhanVien.GHICHU);
-
-                if (command.ExecuteNonQuery() > 0)
-                {
-                    conn.Close();
-                    return true;
-                }
-
-                conn.Close();
-                return false;
-           /* }
-            catch (Exception e)
-            {
-                Console.Write(e.Message);
-                conn.Close();
-                return false;
-            }*/
         }
     }
 }
