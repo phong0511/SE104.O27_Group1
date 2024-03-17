@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DTO;
 using DAL;
+using System.Diagnostics.Metrics;
+using System.Data;
 
 namespace WpfApp2
 {
@@ -22,9 +24,16 @@ namespace WpfApp2
     /// </summary>
     public partial class MainWindow : Window
     {
+        DAL_NhanVien nvManager = new DAL_NhanVien();
+        DAL_ChuyenMon cmManager = new DAL_ChuyenMon();
         public MainWindow()
         {
             InitializeComponent();
+            datagrid.ItemsSource = nvManager.Read();
+            foreach (DataRow row in cmManager.LoadTenCM().Rows)
+            {
+                CM.Items.Add(row[0].ToString()) ;
+            }    
         }
         public void button_click()
         {
@@ -33,9 +42,43 @@ namespace WpfApp2
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            DTO_NhanVien nhanvien = new DTO_NhanVien();
-            DAL_NhanVien add = new DAL_NhanVien();
-            add.Add(nhanvien);
+            DTO_NhanVien nhanvien = new DTO_NhanVien("", "","","","",2,"Writer","");
+            
+            nvManager.Add(nhanvien);
+
+            this.datagrid.ItemsSource = nvManager.Read();
+        }
+
+        private void datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (datagrid.SelectedItems.Count > 0)
+            {
+                DTO_NhanVien member = new DTO_NhanVien();
+                foreach (var obj in datagrid.SelectedItems)
+                {
+                    member = obj as DTO_NhanVien;
+                    MANV.Text = member.MANV;
+                    TENNV.Text = member.TENNV;
+                    PHONE.Text = member.PHONE;
+                    EMAIL.Text = member.EMAIL;
+                    CM.Text = member.CM;
+                    NOTE.Text = member.GHICHU;
+                    LVL.Text = member.LEVEL.ToString();
+                    DOB.Text = member.NGAYSINH;
+                }
+            }
+           
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            DAL_NhanVien dal = new DAL_NhanVien();
+            if (dal.Delete(MANV.Text))
+                Console.WriteLine("COMPLETED");
+            else Console.WriteLine("FAIL");
+
+            this.datagrid.ItemsSource = nvManager.Read();
+
         }
     }
 }
