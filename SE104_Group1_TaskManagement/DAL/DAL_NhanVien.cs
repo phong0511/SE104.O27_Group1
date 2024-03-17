@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace DAL
             try
             {
                 conn.Open();
-                string queryString = "UPDATE NHANVIEN SET HOTEN=@hoten, EMAIL=@email, SODT=@sdt, NGSINH=@ngaysinh, LVL=@lvl, MACM=@macm, GHICHU=@ghichu WHERE MANV=@manv";
+                string queryString = "UPDATE NHANVIEN SET HOTEN=@hoten, EMAIL=@email, SODT=@sdt, NGSINH= CONVERT(smalldatetime,@ngaysinh, 104), LVL=@lvl, MACM=@macm, GHICHU=@ghichu WHERE MANV=@manv";
                 var command = new SqlCommand(
                     queryString,
                     conn);
@@ -41,13 +42,13 @@ namespace DAL
             }
             catch (SqlException e)
             {
-                Console.Write(e.Message);
+                Debug.Write(e.ToString());
                 conn.Close();
                 return (false, e.Message);
             }
             catch (Exception ex)
             {
-                Console.Write(ex.Message);
+                Debug.Write(ex.ToString());
                 conn.Close();
                 return (false, ex.Message);
             }
@@ -73,28 +74,58 @@ namespace DAL
             }
             catch (SqlException e)
             {
-                Console.Write(e.Message);
+                Debug.Write(e.ToString());
                 conn.Close();
                 return (false, e.Message);
             }
             catch (Exception ex)
             {
-                Console.Write(ex.Message);
+                Debug.Write(ex.ToString());
                 conn.Close();
                 return (false, ex.Message);
             }
         }
-        public ObservableCollection<DTO_NhanVien> GetAllData()
+        public DTO_NhanVien GetByID(string MANV)
         {
-            ObservableCollection<DTO_NhanVien> collection = new ObservableCollection<DTO_NhanVien> ();
+            
+            try
+            {
+                DTO_NhanVien res = new DTO_NhanVien();
+                conn.Open();
+                string queryString = "SELECT MANV, HOTEN, EMAIL, SODT, CONVERT(VARCHAR(10), NGSINH, 104), LVL, MACM, GHICHU FROM NHANVIEN WHERE MANV=@manv";
+
+                var command = new SqlCommand(
+                    queryString,
+                    conn);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@manv", MANV);
+                SqlDataReader reader = command.ExecuteReader();
+                reader.Read();
+                res.MANV = reader.GetString(0);
+                res.TENNV = reader.GetString(1);
+                res.EMAIL = reader.GetString(2);
+                res.PHONE = reader.GetString(3);
+                res.NGAYSINH = reader.GetString(4);
+                res.LEVEL = reader.GetInt16(5);
+                res.MACM = reader.GetString(6);
+                res.GHICHU = reader.GetString(7);
+                conn.Close();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                conn.Close();
+                return null;
+            }
+        }
+        public DataTable GetAllData()
+        {
             DataTable dt = new DataTable();
             try
             {
                 conn.Open();
-                string queryString = "SELECT MANV as 'Mã số', HOTEN as 'Họ tên', EMAIL as 'Email', SODT as 'Số điện thoại',  " +
-                    "CONVERT(VARCHAR(10), NGSINH, 104) as 'Ngày sinh', " +
-                    "LVL as 'Level', TENCM as 'Chuyên môn', GHICHU as 'Ghi chú' " +
-                    "FROM NHANVIEN LEFT JOIN CHUYENMON ON NHANVIEN.MACM = CHUYENMON.MACM";
+                string queryString = "SELECT MANV, HOTEN, EMAIL, SODT, CONVERT(VARCHAR(10), NGSINH, 104), LVL, MACM, GHICHU FROM NHANVIEN";
 
                 var command = new SqlCommand(
                     queryString,
@@ -103,29 +134,13 @@ namespace DAL
                 da.Fill(dt);
                 conn.Close();
                 da.Dispose();
-                foreach (DataRow row in dt.Rows)
-                {
-                    DTO_NhanVien nhanVien = new DTO_NhanVien();
-                    nhanVien.MANV = row[dt.Columns[0]].ToString();
-                    nhanVien.TENNV = row[dt.Columns[1]].ToString();
-                    nhanVien.EMAIL = row[dt.Columns[2]].ToString();
-                    nhanVien.PHONE = row[dt.Columns[3]].ToString();
-                    nhanVien.NGAYSINH = row[dt.Columns[4]].ToString();
-                    int level = -1;
-                    int.TryParse(row[dt.Columns[5]].ToString(), out level);
-                    nhanVien.LEVEL = level;
-                    nhanVien.MACM = row[dt.Columns[6]].ToString();
-                    nhanVien.GHICHU = row[dt.Columns[7]].ToString();
-
-                    collection.Add(nhanVien);
-                }
-                return collection;
+                return dt;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Debug.WriteLine(ex.ToString());
                 conn.Close();
-                return collection;
+                return dt;
             }
             
         }
@@ -162,13 +177,13 @@ namespace DAL
             }
             catch (SqlException e)
             {
-                Console.Write(e.Message);
+                Debug.Write(e.ToString());
                 conn.Close();
                 return (false, e.Message);
             }
             catch (Exception ex)
             {
-                Console.Write(ex.Message);
+                Debug.Write(ex.ToString());
                 conn.Close();
                 return (false, ex.Message);
             }
@@ -192,7 +207,7 @@ namespace DAL
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Debug.WriteLine(ex.ToString());
                 conn.Close();
                 return "";
             }

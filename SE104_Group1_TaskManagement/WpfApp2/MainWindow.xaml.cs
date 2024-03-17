@@ -16,6 +16,8 @@ using DTO;
 using DAL;
 using System.Diagnostics.Metrics;
 using System.Data;
+using TestBUS;
+using System.Diagnostics;
 
 namespace WpfApp2
 {
@@ -24,8 +26,8 @@ namespace WpfApp2
     /// </summary>
     public partial class MainWindow : Window
     {
-        DAL_NhanVien nvManager = new DAL_NhanVien();
-        DAL_ChuyenMon cmManager = new DAL_ChuyenMon();
+        BUS_NhanVien nvManager = new BUS_NhanVien();
+        BUS_ChuyenMon cmManager = new BUS_ChuyenMon();
         public MainWindow()
         {
             InitializeComponent();
@@ -39,7 +41,7 @@ namespace WpfApp2
         {
             int level;
             level = int.TryParse(LVL.Text, out level) ? level : -1;
-            DTO_NhanVien nhanvien = new DTO_NhanVien("", TENNV.Text, EMAIL.Text, PHONE.Text, DOB.Text, level, cmManager.ConvertNametoID(CM.Text), NOTE.Text);
+            DTO_NhanVien nhanvien = new DTO_NhanVien("", TENNV.Text, EMAIL.Text, PHONE.Text, DOB.Text, level, CM.Text, NOTE.Text);
             nvManager.AddData(nhanvien);
             this.datagrid.ItemsSource = nvManager.GetAllData();
         }
@@ -48,19 +50,18 @@ namespace WpfApp2
         {
             if (datagrid.SelectedItems.Count > 0)
             {
-                DTO_NhanVien member = new DTO_NhanVien();
-                foreach (var obj in datagrid.SelectedItems)
-                {
-                    member = obj as DTO_NhanVien;
-                    MANV.Text = member.MANV;
-                    TENNV.Text = member.TENNV;
-                    PHONE.Text = member.PHONE;
-                    EMAIL.Text = member.EMAIL;
-                    CM.Text = cmManager.ConvertIDtoName(member.MACM);
-                    NOTE.Text = member.GHICHU;
-                    LVL.Text = member.LEVEL.ToString();
-                    DOB.Text = member.NGAYSINH;
-                }
+                DTO_NhanVien member = nvManager.GetByID((datagrid.SelectedItem as DTO_NhanVien).MANV);
+                if (member == null) return;
+
+                MANV.Text = member.MANV;
+                TENNV.Text = member.TENNV;
+                PHONE.Text = member.PHONE;
+                EMAIL.Text = member.EMAIL;
+                CM.Text = member.MACM;
+                NOTE.Text = member.GHICHU;
+                LVL.Text = member.LEVEL.ToString();
+                DOB.Text = member.NGAYSINH;
+
             }
            
         }
@@ -70,8 +71,8 @@ namespace WpfApp2
             DAL_NhanVien dal = new DAL_NhanVien();
             (bool, string) res = dal.DeleteByID(MANV.Text);
             if (res.Item1)
-                Console.Write(res.Item2);
-            else Console.Write(res.Item2);
+                Debug.Write(res.Item2);
+            else Debug.Write(res.Item2);
 
             this.datagrid.ItemsSource = nvManager.GetAllData();
 
@@ -79,7 +80,9 @@ namespace WpfApp2
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            DTO_NhanVien nhanvien = new DTO_NhanVien(MANV.Text, TENNV.Text, EMAIL.Text, PHONE.Text, DOB.Text, int.Parse(LVL.Text), cmManager.ConvertNametoID(CM.Text), NOTE.Text);
+            int level;
+            level = int.TryParse(LVL.Text, out level) ? level : -1;
+            DTO_NhanVien nhanvien = new DTO_NhanVien(MANV.Text, TENNV.Text, EMAIL.Text, PHONE.Text, DOB.Text, level, CM.Text, NOTE.Text);
             nvManager.SetData(nhanvien);
             this.datagrid.ItemsSource = nvManager.GetAllData();
         }
