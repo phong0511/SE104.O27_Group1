@@ -85,6 +85,50 @@ namespace DAL
                 return (false, ex.Message);
             }
         }
+        public (bool, string) AddData(DTO_NhanVien nhanVien)
+        {
+            try
+            {
+                string manv = getCrnID();
+
+                conn.Open();
+                string queryString = "INSERT INTO NHANVIEN VALUES (@manv, @hoten, @email, @sdt, CONVERT(smalldatetime,@ngaysinh, 104), @lvl, @macm, @ghichu)";
+                var command = new SqlCommand(
+                    queryString,
+                    conn);
+
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@manv", manv);
+                command.Parameters.AddWithValue("@hoten", nhanVien.TENNV);
+                command.Parameters.AddWithValue("@email", nhanVien.EMAIL);
+                command.Parameters.AddWithValue("@sdt", nhanVien.PHONE);
+                command.Parameters.AddWithValue("@ngaysinh", nhanVien.NGAYSINH);
+                command.Parameters.AddWithValue("@lvl", nhanVien.LEVEL);
+                command.Parameters.AddWithValue("@macm", nhanVien.MACM);
+                command.Parameters.AddWithValue("@ghichu", nhanVien.GHICHU);
+
+                if (command.ExecuteNonQuery() > 0)
+                {
+                    conn.Close();
+                    return (true, "Thêm nhân viên thành công!");
+                }
+
+                conn.Close();
+                return (false, "Thêm không thành công!");
+            }
+            catch (SqlException e)
+            {
+                Debug.Write(e.ToString());
+                conn.Close();
+                return (false, e.Message);
+            }
+            catch (Exception ex)
+            {
+                Debug.Write(ex.ToString());
+                conn.Close();
+                return (false, ex.Message);
+            }
+        }
         public DTO_NhanVien GetByID(string MANV)
         {
             
@@ -144,50 +188,7 @@ namespace DAL
             }
             
         }
-        public (bool, string) AddData (DTO_NhanVien nhanVien)
-        {
-            try
-            {
-                string manv = getCrnID();
-
-                conn.Open();
-                string queryString = "INSERT INTO NHANVIEN VALUES (@manv, @hoten, @email, @sdt, CONVERT(smalldatetime,@ngaysinh, 104), @lvl, @macm, @ghichu)";
-                var command = new SqlCommand(
-                    queryString,
-                    conn);
-
-                command.Parameters.Clear();
-                command.Parameters.AddWithValue("@manv", manv);
-                command.Parameters.AddWithValue("@hoten", nhanVien.TENNV);
-                command.Parameters.AddWithValue("@email", nhanVien.EMAIL);
-                command.Parameters.AddWithValue("@sdt", nhanVien.PHONE);
-                command.Parameters.AddWithValue("@ngaysinh", nhanVien.NGAYSINH);
-                command.Parameters.AddWithValue("@lvl", nhanVien.LEVEL);
-                command.Parameters.AddWithValue("@macm", nhanVien.MACM);
-                command.Parameters.AddWithValue("@ghichu", nhanVien.GHICHU);
-
-                if (command.ExecuteNonQuery() > 0)
-                {
-                    conn.Close();
-                    return (true, "Thêm nhân viên thành công!");
-                }
-
-                conn.Close();
-                return (false, "Thêm không thành công!");
-            }
-            catch (SqlException e)
-            {
-                Debug.Write(e.ToString());
-                conn.Close();
-                return (false, e.Message);
-            }
-            catch (Exception ex)
-            {
-                Debug.Write(ex.ToString());
-                conn.Close();
-                return (false, ex.Message);
-            }
-        }
+        
         string getCrnID()
         {
             try
