@@ -10,10 +10,10 @@ namespace DTO
         private string _phone;
         private string _ngaysinh;
         private int _level;
-        private string _cm;
+        private string _macm;
         private string _ghichu;
 
-        public DTO_NhanVien (string manv = "", string tennv = "", string email = "", string phone = "", string ngaysinh = "", int level = -1, string cm = "", string ghichu = "")
+        public DTO_NhanVien (string manv = "", string tennv = "", string email = "", string phone = "", string ngaysinh = "", int level = -1, string macm = "", string ghichu = "")
         {
             _manv = manv;
             _tennv = tennv;
@@ -21,7 +21,7 @@ namespace DTO
             _phone = phone;
             _ngaysinh = ngaysinh;
             _level = level;
-            _cm = cm;
+            _macm = macm;
             _ghichu = ghichu;
         }
 
@@ -31,7 +31,7 @@ namespace DTO
         public string PHONE { get { return _phone; } set { _phone = value; } }
         public int LEVEL { get { return _level; } set { _level = value; } }
         public string NGAYSINH { get { return _ngaysinh; } set { _ngaysinh = value; } }
-        public string CM { get { return _cm; } set { _cm = value; } }
+        public string MACM { get { return _macm; } set { _macm = value; } }
         public string GHICHU { get { return _ghichu; } set { _ghichu = value; } }
 
     }
