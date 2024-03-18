@@ -10,7 +10,11 @@ namespace DTO
     {
         string _macm;
         string _cm;
-
+        public DTO_ChuyenMon(string macm="", string cm = "")
+        {
+            MACM = macm;
+            TENCM = cm;
+        }    
         public string MACM
         { get { return _macm; } set { _macm = value; } }
         public string TENCM

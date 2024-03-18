@@ -28,6 +28,7 @@ namespace WpfApp2
     {
         BUS_NhanVien nvManager = new BUS_NhanVien();
         BUS_ChuyenMon cmManager = new BUS_ChuyenMon();
+        BUS_LoaiSK lskManager = new BUS_LoaiSK();
         public MainWindow()
         {
             InitializeComponent();
@@ -51,8 +52,8 @@ namespace WpfApp2
             if (datagrid.SelectedItems.Count > 0)
             {
                 DTO_NhanVien member = nvManager.GetByID((datagrid.SelectedItem as DTO_NhanVien).MANV);
-                if (member == null) return;
-
+                if (member == null) return; 
+                
                 MANV.Text = member.MANV;
                 TENNV.Text = member.TENNV;
                 PHONE.Text = member.PHONE;
