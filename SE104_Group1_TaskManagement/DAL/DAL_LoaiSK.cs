@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class DAL_ChuyenMon:BaseClass
+    public class DAL_LoaiSK:BaseClass
     {
-        public string ConvertNametoID(string TenCM)
+        public string ConvertNametoID(string TenLSK)
         {
             string macm;
             try
             {
                 conn.Open();
-                string cmString = "SELECT MACM FROM CHUYENMON WHERE TENCM='" + TenCM + "'";
+                string cmString = "SELECT MALSK FROM LOAISK WHERE TENLSK=N'" + TenLSK + "'";
                 var command = new SqlCommand(cmString, conn);
                 macm = (string)command.ExecuteScalar();
                 if (macm == null)
@@ -35,13 +35,13 @@ namespace DAL
             }
         }
 
-        public string ConvertIDtoName(string MACM)
+        public string ConvertIDtoName(string MALSK)
         {
             string tencm;
             try
             {
                 conn.Open();
-                string cmString = "SELECT TENCM FROM CHUYENMON WHERE MACM='" + MACM + "'";
+                string cmString = "SELECT TENLSK FROM LOAISK WHERE MALSK='" + MALSK + "'";
                 var command = new SqlCommand(cmString, conn);
                 tencm = (string)command.ExecuteScalar();
                 if (tencm == null)
@@ -58,16 +58,20 @@ namespace DAL
             }
         }
 
-        public (bool, string) SetData(DTO_ChuyenMon cm_new)
+        public (bool, string) SetData(DTO_LoaiSK lsk_new)
         {
             try
             {
                 conn.Open();
-                string queryString = "UPDATE CHUYENMON SET TENCM='"+cm_new.TENCM+"' WHERE MACM='" + cm_new.MACM +"'";
+                string queryString = "UPDATE LOAISK SET TENLSK= @tenlsk, MONEYMIN=@min, MONEYMAX=@max WHERE MALSK = @malsk";
                 var command = new SqlCommand(
                     queryString,
                     conn);
-
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@tenlsk", lsk_new.TENLSK);
+                command.Parameters.AddWithValue("@min", lsk_new.MIN);
+                command.Parameters.AddWithValue("@max", lsk_new.MAX);
+                command.Parameters.AddWithValue("@malsk", lsk_new.MALSK);
                 if (command.ExecuteNonQuery() > 0)
                 {
                     conn.Close();
@@ -89,22 +93,23 @@ namespace DAL
                 conn.Close();
                 return (false, ex.Message);
             }
-        }    
+        }
 
-        public (bool, string) AddData(DTO_ChuyenMon cm)
+        public (bool, string) AddData(DTO_LoaiSK lsk)
         {
             try
             {
                 conn.Open();
-                string queryString = "INSERT INTO CHUYENMON VALUES (@macm, @tencm)";
+                string queryString = "INSERT INTO LOAISK VALUES (@malsk, @tenlsk, @min, @max)";
                 var command = new SqlCommand(
                     queryString,
                     conn);
 
                 command.Parameters.Clear();
-                command.Parameters.AddWithValue("@macm", cm.MACM);
-                command.Parameters.AddWithValue("@tencm", cm.TENCM);
-
+                command.Parameters.AddWithValue("@malsk", lsk.MALSK);
+                command.Parameters.AddWithValue("@tenlsk", lsk.TENLSK);
+                command.Parameters.AddWithValue("@min", lsk.MIN);
+                command.Parameters.AddWithValue("@max", lsk.MAX);
                 if (command.ExecuteNonQuery() > 0)
                 {
                     conn.Close();
@@ -128,12 +133,12 @@ namespace DAL
             }
         }
 
-        public (bool, string) DeleteByID(string MACM)
+        public (bool, string) DeleteByID(string MALSK)
         {
             try
             {
                 conn.Open();
-                string queryString = "DELETE FROM CHUYENMON WHERE MACM='" + MACM + "'";
+                string queryString = "DELETE FROM LOAISK WHERE MACM='" + MALSK + "'";
 
 
                 var command = new SqlCommand(
@@ -142,10 +147,10 @@ namespace DAL
                 if (command.ExecuteNonQuery() > 0)
                 {
                     conn.Close();
-                    return (true, "Xóa chuyên môn thành công.");
+                    return (true, "Xóa loại sự kiện thành công.");
                 }
                 conn.Close();
-                return (false, "Xóa chuyên môn không thành công.");
+                return (false, "Xóa loại sự kiện không thành công.");
             }
             catch (SqlException e)
             {
@@ -161,13 +166,38 @@ namespace DAL
             }
         }
 
+        public (long, long) GetMinMaxByID (string MALSK)
+        {
+            (long, long) res = (0,0);
+            try
+            {
+                conn.Open();
+                string queryString = "SELECT MONEYMIN, MONEYMAX FROM LOAISK WHERE MALSK='" + MALSK + "'";
+                var command = new SqlCommand(
+                    queryString,
+                    conn);
+                SqlDataReader reader = command.ExecuteReader();
+                reader.Read();
+                res.Item1 = (long)reader.GetDecimal(0);
+                res.Item2 = (long)reader.GetDecimal(1);
+                conn.Close();
+                return res;
+            }
+
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                conn.Close();
+                return res;
+            }
+        }
         public DataTable GetAllData()
         {
             DataTable dt = new DataTable();
             try
             {
                 conn.Open();
-                string queryString = "SELECT * FROM CHUYENMON";
+                string queryString = "SELECT * FROM LOAISK";
                 var command = new SqlCommand(
                     queryString,
                     conn);
