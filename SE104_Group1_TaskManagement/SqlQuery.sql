@@ -190,4 +190,21 @@ BEGIN
         ROLLBACK TRANSACTION;
     END;
 END;
-
+-- KIỂM TRA TINH TRANG DU AN CÓ CANCELED HAY DELAYED HAY KHÔNG
+CREATE OR ALTER TRIGGER Check_TinhTrangDuAn
+ON CONGVIEC
+AFTER UPDATE
+AS
+BEGIN
+    -- Kiểm tra tình trạng của dự án
+    IF EXISTS (
+        SELECT 1
+        FROM inserted i
+        INNER JOIN DUAN d ON i.MADA = d.MADA
+        WHERE d.TINHTRANG IN ('Canceled', 'Delayed')
+    )
+    BEGIN
+        RAISERROR (N'Không được cập nhật công việc khi dự án đang ở trạng thái Canceled hoặc Delayed', 16, 1);
+        ROLLBACK TRANSACTION;
+    END;
+END;
