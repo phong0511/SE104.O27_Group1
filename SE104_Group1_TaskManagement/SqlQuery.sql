@@ -190,6 +190,7 @@ BEGIN
         ROLLBACK TRANSACTION;
     END;
 END;
+
 -- KIỂM TRA TINH TRANG DU AN CÓ CANCELED HAY DELAYED HAY KHÔNG
 CREATE OR ALTER TRIGGER Check_TinhTrangDuAn
 ON CONGVIEC
@@ -205,6 +206,42 @@ BEGIN
     )
     BEGIN
         RAISERROR (N'Không được cập nhật công việc khi dự án đang ở trạng thái Canceled hoặc Delayed', 16, 1);
+        ROLLBACK TRANSACTION;
+    END;
+END;
+
+-- KIỂM TRA TỆP ĐÍNH KÈM NẾU TIẾN ĐỘ LÀ 100% VÀ CÓ YÊU CẦU ĐÍNH KÈM
+CREATE OR ALTER TRIGGER Check_TienDo_YeuCauDinhKem
+ON CONGVIEC
+AFTER UPDATE
+AS
+BEGIN
+    -- Kiểm tra tiến độ và yêu cầu đính kèm
+    IF EXISTS (
+        SELECT 1
+        FROM inserted i
+        WHERE i.TIENDO = 100 AND i.YCDINHKEM IS NOT NULL AND i.TEPDINHKEM IS NULL
+    )
+    BEGIN
+        RAISERROR (N'Cần có tệp đính kèm khi tiến độ là 100% và có yêu cầu đính kèm', 16, 1);
+        ROLLBACK TRANSACTION;
+    END;
+END;
+
+-- KIỂM TRA TIẾN ĐỘ (LỚN HƠN 10% TIẾN ĐỘ TRƯỚC)
+CREATE OR ALTER TRIGGER Check_TienDo
+ON CONGVIEC
+AFTER UPDATE
+AS
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM inserted i
+        INNER JOIN deleted d ON i.MACV = d.MACV
+        WHERE i.TIENDO > d.TIENDO AND i.TIENDO < d.TIENDO * 1.1
+    )
+    BEGIN
+        RAISERROR (N'Tiến độ cập nhật sau phải lớn hơn tiến độ trước ít nhất 10%', 16, 1);
         ROLLBACK TRANSACTION;
     END;
 END;
