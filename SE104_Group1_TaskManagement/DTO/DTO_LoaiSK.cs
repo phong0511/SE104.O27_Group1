@@ -12,13 +12,15 @@ namespace DTO
         string _tenlsk;
         long _min;
         long _max;
+        string _inshort;
 
-        public DTO_LoaiSK(string malsk="", string tenlsk="", long min=-1, long max=-1)
+        public DTO_LoaiSK(string malsk="", string tenlsk="", long min=-1, long max=-1, string inshort = "")
         {
             _malsk = malsk;
             _tenlsk = tenlsk;
             _min = min;
             _max = max;
+            _inshort = inshort;
         }
 
         public string MALSK
@@ -29,5 +31,7 @@ namespace DTO
         { get { return _min; } set { _min = value; } }
         public long MAX
         { get { return _max; } set { _max = value; } }
+        public string INSHORT
+        { get { return _inshort; } set { _inshort = value; } }
     }
 }
