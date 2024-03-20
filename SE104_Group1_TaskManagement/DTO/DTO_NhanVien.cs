@@ -12,8 +12,9 @@ namespace DTO
         private int _level;
         private string _macm;
         private string _ghichu;
+        private int _isDeleted;
 
-        public DTO_NhanVien (string manv = "", string tennv = "", string email = "", string phone = "", string ngaysinh = "", int level = -1, string macm = "", string ghichu = "")
+        public DTO_NhanVien (string manv = "", string tennv = "", string email = "", string phone = "", string ngaysinh = "", int level = -1, string macm = "", string ghichu = "", int isDeleted = 0)
         {
             _manv = manv;
             _tennv = tennv;

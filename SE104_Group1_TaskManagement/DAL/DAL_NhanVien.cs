@@ -58,7 +58,7 @@ namespace DAL
             try
             {
                 conn.Open();
-                string queryString = "DELETE FROM NHANVIEN WHERE MANV='" + MANV + "'";
+                string queryString = "UPDATE NHANVIEN SET IsDeleted = 1 WHERE MANV='" + MANV + "'";
 
 
                 var command = new SqlCommand(
@@ -92,7 +92,7 @@ namespace DAL
                 string manv = getCrnID();
 
                 conn.Open();
-                string queryString = "INSERT INTO NHANVIEN VALUES (@manv, @hoten, @email, @sdt, CONVERT(smalldatetime,@ngaysinh, 104), @lvl, @macm, @ghichu)";
+                string queryString = "INSERT INTO NHANVIEN VALUES (@manv, @hoten, @email, @sdt, CONVERT(smalldatetime,@ngaysinh, 104), @lvl, @macm, @ghichu, @isdeleted)";
                 var command = new SqlCommand(
                     queryString,
                     conn);
@@ -106,6 +106,7 @@ namespace DAL
                 command.Parameters.AddWithValue("@lvl", nhanVien.LEVEL);
                 command.Parameters.AddWithValue("@macm", nhanVien.MACM);
                 command.Parameters.AddWithValue("@ghichu", nhanVien.GHICHU);
+                command.Parameters.AddWithValue("@isdeleted", 0);
 
                 if (command.ExecuteNonQuery() > 0)
                 {
@@ -136,7 +137,7 @@ namespace DAL
             {
                 DTO_NhanVien res = new DTO_NhanVien();
                 conn.Open();
-                string queryString = "SELECT MANV, HOTEN, EMAIL, SODT, CONVERT(VARCHAR(10), NGSINH, 104), LVL, MACM, GHICHU FROM NHANVIEN WHERE MANV=@manv";
+                string queryString = "SELECT MANV, HOTEN, EMAIL, SODT, CONVERT(VARCHAR(10), NGSINH, 104), LVL, MACM, GHICHU FROM NHANVIEN WHERE MANV=@manv AND IsDeleted <> 1";
 
                 var command = new SqlCommand(
                     queryString,
@@ -169,7 +170,7 @@ namespace DAL
             try
             {
                 conn.Open();
-                string queryString = "SELECT MANV, HOTEN, EMAIL, SODT, CONVERT(VARCHAR(10), NGSINH, 104), LVL, MACM, GHICHU FROM NHANVIEN";
+                string queryString = "SELECT MANV, HOTEN, EMAIL, SODT, CONVERT(VARCHAR(10), NGSINH, 104), LVL, MACM, GHICHU FROM NHANVIEN WHERE IsDeleted <> 1";
 
                 var command = new SqlCommand(
                     queryString,
