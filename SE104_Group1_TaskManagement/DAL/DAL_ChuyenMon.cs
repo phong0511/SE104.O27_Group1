@@ -20,7 +20,7 @@ namespace DAL
                 conn.Open();
                 string cmString = "SELECT MACM FROM CHUYENMON WHERE TENCM='" + TenCM + "'";
                 var command = new SqlCommand(cmString, conn);
-                macm = (string)command.ExecuteScalar();
+                macm = command.ExecuteScalar().ToString();
                 if (macm == null)
                 { macm = ""; }
                 conn.Close();
@@ -41,7 +41,7 @@ namespace DAL
             try
             {
                 conn.Open();
-                string cmString = "SELECT TENCM FROM CHUYENMON WHERE MACM='" + MACM + "'";
+                string cmString = "SELECT TENCM FROM CHUYENMON WHERE MACM=" + MACM;
                 var command = new SqlCommand(cmString, conn);
                 tencm = (string)command.ExecuteScalar();
                 if (tencm == null)
@@ -63,7 +63,7 @@ namespace DAL
             try
             {
                 conn.Open();
-                string queryString = "UPDATE CHUYENMON SET TENCM='"+cm_new.TENCM+"' WHERE MACM='" + cm_new.MACM +"'";
+                string queryString = "UPDATE CHUYENMON SET TENCM='"+cm_new.TENCM+"', INSHORT = '"+cm_new.INSHORT+"' WHERE MACM=" + cm_new.MACM +"";
                 var command = new SqlCommand(
                     queryString,
                     conn);
@@ -96,13 +96,13 @@ namespace DAL
             try
             {
                 conn.Open();
-                string queryString = "INSERT INTO CHUYENMON VALUES (@macm, @tencm)";
+                string queryString = "INSERT INTO CHUYENMON VALUES (@tencm, @inshort)";
                 var command = new SqlCommand(
                     queryString,
                     conn);
 
                 command.Parameters.Clear();
-                command.Parameters.AddWithValue("@macm", cm.MACM);
+                command.Parameters.AddWithValue("@inshort", cm.INSHORT);
                 command.Parameters.AddWithValue("@tencm", cm.TENCM);
 
                 if (command.ExecuteNonQuery() > 0)

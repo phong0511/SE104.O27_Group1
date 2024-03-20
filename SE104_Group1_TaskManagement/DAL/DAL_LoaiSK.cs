@@ -20,7 +20,7 @@ namespace DAL
                 conn.Open();
                 string cmString = "SELECT MALSK FROM LOAISK WHERE TENLSK=N'" + TenLSK + "'";
                 var command = new SqlCommand(cmString, conn);
-                macm = (string)command.ExecuteScalar();
+                macm = command.ExecuteScalar().ToString();
                 if (macm == null)
                 { macm = ""; }
                 conn.Close();
@@ -41,7 +41,7 @@ namespace DAL
             try
             {
                 conn.Open();
-                string cmString = "SELECT TENLSK FROM LOAISK WHERE MALSK='" + MALSK + "'";
+                string cmString = "SELECT TENLSK FROM LOAISK WHERE MALSK=" + MALSK;
                 var command = new SqlCommand(cmString, conn);
                 tencm = (string)command.ExecuteScalar();
                 if (tencm == null)
@@ -100,16 +100,16 @@ namespace DAL
             try
             {
                 conn.Open();
-                string queryString = "INSERT INTO LOAISK VALUES (@malsk, @tenlsk, @min, @max)";
+                string queryString = "INSERT INTO LOAISK VALUES (@tenlsk, @min, @max, @inshort)";
                 var command = new SqlCommand(
                     queryString,
                     conn);
 
                 command.Parameters.Clear();
-                command.Parameters.AddWithValue("@malsk", lsk.MALSK);
                 command.Parameters.AddWithValue("@tenlsk", lsk.TENLSK);
                 command.Parameters.AddWithValue("@min", lsk.MIN);
                 command.Parameters.AddWithValue("@max", lsk.MAX);
+                command.Parameters.AddWithValue("@inshort", lsk.INSHORT);
                 if (command.ExecuteNonQuery() > 0)
                 {
                     conn.Close();
@@ -138,7 +138,7 @@ namespace DAL
             try
             {
                 conn.Open();
-                string queryString = "DELETE FROM LOAISK WHERE MACM='" + MALSK + "'";
+                string queryString = "DELETE FROM LOAISK WHERE MALSK=" + MALSK;
 
 
                 var command = new SqlCommand(
@@ -216,5 +216,6 @@ namespace DAL
                 return dt;
             }
         }
+
     }
 }

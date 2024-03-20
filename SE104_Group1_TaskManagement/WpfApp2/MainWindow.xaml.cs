@@ -35,7 +35,7 @@ namespace WpfApp2
             datagrid.ItemsSource = nvManager.GetAllData();
             foreach (DataRow row in cmManager.GetAllData().Rows)
             {
-                CM.Items.Add(row[1].ToString()) ;
+                CM.Items.Add(row[0].ToString()) ;
             }    
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
