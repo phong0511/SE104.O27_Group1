@@ -154,12 +154,14 @@ namespace DAL
                 res.LEVEL = reader.GetInt16(5);
                 res.MACM = reader.GetString(6);
                 res.GHICHU = reader.GetString(7);
+                reader.Close();
                 conn.Close();
                 return res;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
+                reader.Close();
                 conn.Close();
                 return null;
             }
