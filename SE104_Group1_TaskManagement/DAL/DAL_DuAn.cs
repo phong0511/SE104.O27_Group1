@@ -13,6 +13,50 @@ namespace DAL
 {
     public class DAL_DuAn:BaseClass
     {
+        public (bool, string) AddData(DTO_DuAn duAn)
+        {
+            try
+            {
+                string mada = getCrnID();
+
+                conn.Open();
+                string queryString = "INSERT INTO DUAN VALUES (@mada, @malsk, @tenda, @ngansach, CONVERT(smalldatetime,@tstart, 104),  CONVERT(smalldatetime,@tend, 104), @maowner, @stat)";
+                var command = new SqlCommand(
+                    queryString,
+                    conn);
+
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@mada", mada);
+                command.Parameters.AddWithValue("@malsk", duAn.MALSK);
+                command.Parameters.AddWithValue("@tenda", duAn.TENDA);
+                command.Parameters.AddWithValue("@ngansach", duAn.NGANSACH);
+                command.Parameters.AddWithValue("@tstart", duAn.TSTART);
+                command.Parameters.AddWithValue("@tend", duAn.TEND);
+                command.Parameters.AddWithValue("@maowner", duAn.MAOWNER);
+                command.Parameters.AddWithValue("@stat", duAn.STAT);
+
+                if (command.ExecuteNonQuery() > 0)
+                {
+                    conn.Close();
+                    return (true, "Thêm thành công!");
+                }
+
+                conn.Close();
+                return (false, "Thêm không thành công!");
+            }
+            catch (SqlException e)
+            {
+                Debug.Write(e.ToString());
+                conn.Close();
+                return (false, e.Message);
+            }
+            catch (Exception ex)
+            {
+                Debug.Write(ex.ToString());
+                conn.Close();
+                return (false, ex.Message);
+            }
+        }
         public (bool, string) SetData(DTO_DuAn da_new)
         {
             try
@@ -112,51 +156,6 @@ namespace DAL
                 return "";
             }
         }
-        public (bool, string) AddData(DTO_DuAn duAn)
-        {
-            try
-            {
-                string mada = getCrnID();
-
-                conn.Open();
-                string queryString = "INSERT INTO DUAN VALUES (@mada, @malsk, @tenda, @ngansach, CONVERT(smalldatetime,@tstart, 104),  CONVERT(smalldatetime,@tend, 104), @maowner, @stat)";
-                var command = new SqlCommand(
-                    queryString,
-                    conn);
-
-                command.Parameters.Clear();
-                command.Parameters.AddWithValue("@mada", mada);
-                command.Parameters.AddWithValue("@malsk", duAn.MALSK);
-                command.Parameters.AddWithValue("@tenda", duAn.TENDA);
-                command.Parameters.AddWithValue("@ngansach", duAn.NGANSACH);
-                command.Parameters.AddWithValue("@tstart", duAn.TSTART);
-                command.Parameters.AddWithValue("@tend", duAn.TEND);
-                command.Parameters.AddWithValue("@maowner", duAn.MAOWNER);
-                command.Parameters.AddWithValue("@stat", duAn.STAT);
-
-                if (command.ExecuteNonQuery() > 0)
-                {
-                    conn.Close();
-                    return (true, "Thêm thành công!");
-                }
-
-                conn.Close();
-                return (false, "Thêm không thành công!");
-            }
-            catch (SqlException e)
-            {
-                Debug.Write(e.ToString());
-                conn.Close();
-                return (false, e.Message);
-            }
-            catch (Exception ex)
-            {
-                Debug.Write(ex.ToString());
-                conn.Close();
-                return (false, ex.Message);
-            }
-        }
-
         public DTO_DuAn GetByID(string MADA)
         {
 
@@ -182,7 +181,7 @@ namespace DAL
                 res.TEND = reader.GetString(5);
                 res.MAOWNER = reader.GetString(6);
                 res.STAT = reader.GetString(7);
-                
+                reader.Close();
                 conn.Close();
                 return res;
             }
@@ -193,7 +192,7 @@ namespace DAL
                 return null;
             }
         }
-        public DataTable GetByTenDA(string TENDA)
+        public DataTable GetByName(string TENDA)
         {
             DataTable dt = new DataTable();
             try
@@ -228,7 +227,7 @@ namespace DAL
             try
             {
                 conn.Open();
-                string queryString = "SELECTMADA, TENDA, MALSK, NGANSACH,  CONVERT(VARCHAR(10),TSTART,104),  CONVERT(VARCHAR(10),TEND,104), MAOWNER, TINHTRANG FROM DUAN" +
+                string queryString = "SELECT MADA, TENDA, MALSK, NGANSACH,  CONVERT(VARCHAR(10),TSTART,104),  CONVERT(VARCHAR(10),TEND,104), MAOWNER, TINHTRANG FROM DUAN" +
                     " WHERE TSTART <= CONVERT(smalldatetime,@tstart, 104)";
 
                 var command = new SqlCommand(
@@ -336,7 +335,6 @@ namespace DAL
                 return dt;
             }
         }
-
         public DataTable GetByOwner(string MAOWNER)
         {
             DataTable dt = new DataTable();
