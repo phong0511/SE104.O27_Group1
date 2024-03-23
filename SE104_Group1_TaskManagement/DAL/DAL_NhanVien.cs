@@ -161,7 +161,6 @@ namespace DAL
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
-                reader.Close();
                 conn.Close();
                 return null;
             }
