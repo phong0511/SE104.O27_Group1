@@ -160,7 +160,7 @@ namespace DAL
                 return (false, ex.Message);
             }
         }
-
+        
         public DataTable GetAllData()
         {
             DataTable dt = new DataTable();

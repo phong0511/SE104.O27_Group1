@@ -90,7 +90,7 @@ namespace DAL
             try
             {
                 string manv = getCrnID();
-
+                //thêm tên cm vào
                 conn.Open();
                 string queryString = "INSERT INTO NHANVIEN VALUES (@manv, @hoten, @email, @sdt, CONVERT(smalldatetime,@ngaysinh, 104), @lvl, @macm, @ghichu, @isdeleted)";
                 var command = new SqlCommand(
