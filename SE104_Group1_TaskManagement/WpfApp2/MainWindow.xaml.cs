@@ -29,13 +29,17 @@ namespace WpfApp2
         BUS_NhanVien nvManager = new BUS_NhanVien();
         BUS_ChuyenMon cmManager = new BUS_ChuyenMon();
         BUS_LoaiSK lskManager = new BUS_LoaiSK();
+     
         public MainWindow()
         {
             InitializeComponent();
             datagrid.ItemsSource = nvManager.GetAllData();
+            //
+            //data table => 3 cột tên, viết tắt, mã
+                         
             foreach (DataRow row in cmManager.GetAllData().Rows)
             {
-                CM.Items.Add(row[0].ToString()) ;
+                CM.Items.Add(row[0].ToString()) ; 
             }    
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
