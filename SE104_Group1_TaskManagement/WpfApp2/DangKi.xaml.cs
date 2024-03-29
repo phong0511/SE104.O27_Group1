@@ -20,6 +20,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TestBUS;
 using DAL;
+using System.Windows.Navigation;
 
 namespace TestGUI
 {
@@ -65,9 +66,10 @@ namespace TestGUI
 
         private void Return_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Hide();
+            DangNhap dangnhap = new DangNhap();
+            dangnhap.Show();
         }
-
     
     }
 }

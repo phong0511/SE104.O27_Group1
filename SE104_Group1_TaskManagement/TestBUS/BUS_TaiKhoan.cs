@@ -54,4 +54,13 @@ namespace TestBUS
             return true;
         }
     }
+    public class DoiMatKhauBUS
+    {
+        private readonly DoiMatKhau taiKhoanDAL = new DoiMatKhau();
+
+        public string ChangePassword(string email, string oldPassword, string newPassword)
+        {
+            return taiKhoanDAL.ChangePassword(email, oldPassword, newPassword);
+        }
+    }
 }

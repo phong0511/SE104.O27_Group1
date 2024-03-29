@@ -108,4 +108,29 @@ namespace DAL
             }
         }
     }
+    public class DoiMatKhau : BaseClass
+    {
+        public string ChangePassword(string email, string oldPassword, string newPassword)
+        {
+            try
+            {
+                conn.Open();
+                SqlCommand command = new SqlCommand("proc_change_password", conn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@OldPassword", oldPassword);
+                command.Parameters.AddWithValue("@NewPassword", newPassword);
+                command.ExecuteNonQuery();
+                return "Đổi mật khẩu thành công!";
+            }
+            catch (SqlException ex)
+            {
+                return "Lỗi khi đổi mật khẩu: " + ex.Message;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+    }
 }

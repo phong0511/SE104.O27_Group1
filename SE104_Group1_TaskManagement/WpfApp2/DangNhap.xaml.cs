@@ -61,5 +61,20 @@ namespace TestGUI
             this.Close();
 
         }
+
+
+        private void Thoat_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            MainWindow mainwindow = new MainWindow();   
+            mainwindow.Show();
+        }
+
+        private void DoiMK_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            DoiMatKhau doimatkhau = new DoiMatKhau();
+            doimatkhau.Show();
+        }
     }
 }
