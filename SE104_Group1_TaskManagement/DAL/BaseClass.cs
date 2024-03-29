@@ -1,5 +1,7 @@
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using System;
+using System.Data;
+using DTO;
 
 namespace DAL
 {
@@ -9,4 +11,5 @@ namespace DAL
         protected SqlConnection conn = new SqlConnection(connectionString);
 
     }
+    
 }

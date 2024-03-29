@@ -53,5 +53,13 @@ namespace TestGUI
             MessageBox.Show("Xin chúc mừng bạn đã đăng nhập thành công hệ thống!");
 
         }
+
+        private void DangKi_Click(object sender, RoutedEventArgs e)
+        {
+            DangKi dangki = new DangKi();
+            dangki.Show();
+            this.Close();
+
+        }
     }
 }
