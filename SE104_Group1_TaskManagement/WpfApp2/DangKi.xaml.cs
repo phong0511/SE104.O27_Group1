@@ -37,12 +37,12 @@ namespace TestGUI
         private void CreateAccount_Click(object sender, RoutedEventArgs e)
         {
             // Kiểm tra xem các trường thông tin đã được điền đầy đủ hay chưa
-            if (string.IsNullOrEmpty(txtEmail.Text) || string.IsNullOrEmpty(txtPass.Text))
+            if (string.IsNullOrEmpty(txtEmail.Text) || string.IsNullOrEmpty(txtPass.Password))
             {
                 MessageBox.Show("Vui lòng điền đầy đủ thông tin.");
                 return;
             }
-            if (txtPass.Text != txtPassAgain.Text)
+            if (txtPass.Password != txtPassAgain.Password)
             {
                 MessageBox.Show("Mật khẩu không trùng khớp.");
                 return;
@@ -52,7 +52,7 @@ namespace TestGUI
             DTO_TaiKhoan taiKhoan = new DTO_TaiKhoan()
             {
                 EMAIL = txtEmail.Text,
-                PASS = txtPass.Text,
+                PASS = txtPass.Password,
                 MAQH = "1",
                 // Các thông tin khác có thể được cung cấp tùy thuộc vào yêu cầu
             };
@@ -67,9 +67,13 @@ namespace TestGUI
         private void Return_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
-            DangNhap dangnhap = new DangNhap();
-            dangnhap.Show();
+            Admin admin = new Admin();
+            admin.Show();
         }
-    
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

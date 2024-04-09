@@ -9,10 +9,9 @@
     <Grid>
         <Label Content="Email:" HorizontalAlignment="Left" Margin="252,139,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Label Content="Nhập lại mật khẩu:" HorizontalAlignment="Left" Margin="252,268,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="txtEmail" HorizontalAlignment="Left" Height="28" Margin="400,143,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="274"/>
-        <TextBox x:Name="txtPassAgain" HorizontalAlignment="Left" Height="28" Margin="400,270,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="274"/>
-        <Button Content="Trở về" HorizontalAlignment="Left" Height="30" Margin="596,332,0,0" VerticalAlignment="Top" Width="78" FontSize="16" Click="Return_Click"/>
-        <Button x:Name="btnLogin" Content="Đăng kí" HorizontalAlignment="Left" Height="30" Margin="400,332,0,0" VerticalAlignment="Top" Width="122" Click="CreateAccount_Click" FontSize="16"/>
+        <TextBox x:Name="txtEmail" HorizontalAlignment="Left" Height="31" Margin="400,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="274"/>
+        <Button Content="Trở về" HorizontalAlignment="Left" Height="30" Margin="596,340,0,0" VerticalAlignment="Top" Width="78" FontSize="16" Click="Return_Click"/>
+        <Button x:Name="btnLogin" Content="Đăng kí" HorizontalAlignment="Left" Height="30" Margin="400,340,0,0" VerticalAlignment="Top" Width="122" Click="CreateAccount_Click" FontSize="16"/>
 
         <Image Margin="5,127,541,100" RenderTransformOrigin="0.5,0.5" Source="/login.png">
             <Image.RenderTransform>
@@ -24,9 +23,10 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Label Content="ĐĂNG KÍ TÀI KHOẢN MỚI" HorizontalAlignment="Left" Margin="286,70,0,0" VerticalAlignment="Top" Foreground="#FFC98CE4" FontFamily="Segoe UI Black" FontSize="20" HorizontalContentAlignment="Center"/>
+        <Label Content="THÊM NHÂN VIÊN MỚI" HorizontalAlignment="Left" Margin="286,70,0,0" VerticalAlignment="Top" Foreground="#FFC98CE4" FontFamily="Segoe UI Black" FontSize="20" HorizontalContentAlignment="Center"/>
         <Label Content="Mật khẩu:" HorizontalAlignment="Left" Margin="252,205,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="txtPass" HorizontalAlignment="Left" Height="28" Margin="400,208,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="274"/>
+        <PasswordBox x:Name="txtPass" HorizontalAlignment="Left" Height="31" Margin="400,205,0,0" VerticalAlignment="Top" Width="274"/>
+        <PasswordBox x:Name="txtPassAgain" HorizontalAlignment="Left" Height="31" Margin="400,268,0,0" VerticalAlignment="Top" Width="274"/>
 
 
     </Grid>

@@ -30,7 +30,7 @@ namespace TestGUI
         private void Login_Click(object sender, RoutedEventArgs e)
         {
             taikhoan.EMAIL = txtTaiKhoan.Text;
-            taikhoan.PASS = txtMatKhau.Text;
+            taikhoan.PASS = txtMatKhau.Password;
 
             string getuser = TKBLL.CheckLogic(taikhoan);
 
@@ -51,7 +51,9 @@ namespace TestGUI
             }
 
             MessageBox.Show("Xin chúc mừng bạn đã đăng nhập thành công hệ thống!");
-
+            Admin admin = new Admin();
+            admin.Show();
+            this.Close();
         }
 
         private void DangKi_Click(object sender, RoutedEventArgs e)
@@ -59,7 +61,6 @@ namespace TestGUI
             DangKi dangki = new DangKi();
             dangki.Show();
             this.Close();
-
         }
 
 

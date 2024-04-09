@@ -24,7 +24,7 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Label Content="ĐỔI MẬT KHẨU" HorizontalAlignment="Left" Margin="278,59,0,0" VerticalAlignment="Top" Foreground="#FFC98CE4" FontFamily="Segoe UI Black" FontSize="20" HorizontalContentAlignment="Center"/>
+        <Label Content="ĐỔI MẬT KHẨU" HorizontalAlignment="Left" Margin="335,56,0,0" VerticalAlignment="Top" Foreground="#FFC98CE4" FontFamily="Segoe UI Black" FontSize="20" HorizontalContentAlignment="Center"/>
         <Label Content="Mật khẩu cũ:" HorizontalAlignment="Left" Margin="242,186,0,0" VerticalAlignment="Top" FontSize="16"/>
         <TextBox x:Name="txtOldPass" HorizontalAlignment="Left" Height="28" Margin="400,189,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="274"/>
         <Label Content="Xác nhận mật khẩu:" HorizontalAlignment="Left" Margin="242,308,0,0" VerticalAlignment="Top" FontSize="16"/>
