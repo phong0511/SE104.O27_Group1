@@ -9,26 +9,129 @@
         Title="MainWindow" Height="450" Width="800"
         ResizeMode="NoResize">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MaxWidth="150"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0"
+              x:Name="nav_pnl"
+              Background="#2E333A">
+            <StackPanel x:Name="st_pnl">
+
+                <Grid Height="90">
+
+                    <!--// Menu title text //-->
+
+                    <TextBlock  Grid.Row="1"
+                                Text="NAVIGATION"
+                                Foreground="White"
+                                FontSize="18"
+                                Background="Transparent"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                            
+                            <!--// Shadow Effect //-->
+
+                        <TextBlock.Effect>
+
+                            <DropShadowEffect  BlurRadius="10"
+                                                   ShadowDepth="1"
+                                                   Direction="-90"
+                                                   Color="White"/>
+
+                        </TextBlock.Effect>
+
+                    </TextBlock>
+
+                </Grid>
+
+                <!--// ListView with menu list items //-->
+
+                <ListView  x:Name="LV"
+                               Background="Transparent"
+                               BorderBrush="Transparent"
+                               ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                    <!--// Home //-->
+
+                    <ListViewItem HorizontalAlignment="Left" >
+
+                        <StackPanel Orientation="Horizontal">
+                            <Image VerticalAlignment="Center"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                            <TextBlock Text="Home"
+                                       Margin="25,0,0,0"
+                                       Foreground="White"/>
+
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem HorizontalAlignment="Left">
+
+                        <StackPanel Orientation="Horizontal">
+                            <Image VerticalAlignment="Center"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                            <TextBlock Text="Home"
+                                       Margin="25,0,0,0"
+                                       Foreground="White"/>
+
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem HorizontalAlignment="Left">
+
+                        <StackPanel Orientation="Horizontal">
+                            <Image VerticalAlignment="Center"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                            <TextBlock Text="Home"
+                                       Margin="25,0,0,0"
+                                       Foreground="White"/>
+
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem HorizontalAlignment="Left">
+
+                        <StackPanel Orientation="Horizontal">
+                            <Image VerticalAlignment="Center"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                            <TextBlock Text="Home"
+                                       Margin="25,0,0,0"
+                                       Foreground="White"/>
+
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem HorizontalAlignment="Left">
+
+                        <StackPanel Orientation="Horizontal">
+                            <Image  VerticalAlignment="Center"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                            <TextBlock Text="Home"
+                                       Margin="25,0,0,0"
+                                       Foreground="White"/>
+
+                        </StackPanel>
+                    </ListViewItem>
+
+
+                </ListView>
+
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <materialDesign:Card
-                Width="800"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Center"
-                Padding="8"
-                Background="{DynamicResource PrimaryHueLightBrush}"
-                Foreground="{DynamicResource PrimaryHueLightForegroundBrush}">
-                <TextBlock
-                    FontSize="40"
-                    FontWeight="ExtraBold"
-                    Text="MAIN WINDOW"
-                    TextAlignment="Center"/>
-            </materialDesign:Card>
-        </Grid>
+        <Grid Grid.Row="0"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
@@ -115,5 +218,6 @@
             </Grid>
 
         </Grid>
+    </Grid>
     </Grid>
 </Window>
