@@ -1,0 +1,198 @@
+﻿<Window x:Class="GUI.FindTask"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GUI"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="FindTask" Height="560" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="2.5*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <materialDesign:Card
+                Width="800"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Center"
+                Padding="8"
+                Background="{DynamicResource PrimaryHueLightBrush}"
+                Foreground="{DynamicResource PrimaryHueLightForegroundBrush}">
+                <TextBlock
+                    FontSize="35"
+                    FontWeight="ExtraBold"
+                    Text="FIND TASK"
+                    TextAlignment="Center"/>
+            </materialDesign:Card>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Column="0" Grid.Row="0" Margin="5">
+                <materialDesign:Card
+                    Margin="5"
+                    Width="auto"
+                    Padding="auto"
+                    Background="Transparent"
+                    Foreground="{DynamicResource PrimaryHueLightForegroundBrush}">
+                    <TextBlock
+                        FontSize="16"
+                        FontWeight="ExtraBold"
+                        VerticalAlignment="Center"
+                        TextAlignment="Right"
+                        Text="Mã dự án" />
+                </materialDesign:Card>
+            </Grid>
+
+            <Grid Grid.Column="0" Grid.Row="1" Margin="5">
+                <materialDesign:Card
+                    Margin="5"
+                    Width="auto"
+                    Padding="auto"
+                    Background="Transparent"
+                    Foreground="{DynamicResource PrimaryHueLightForegroundBrush}">
+                    <TextBlock
+                        FontSize="16"
+                        FontWeight="ExtraBold"
+                        VerticalAlignment="Center"
+                        TextAlignment="Right"
+                        Text="Mã công việc" />
+                </materialDesign:Card>
+            </Grid>
+
+            <Grid Grid.Column="0" Grid.Row="2" Margin="5">
+                <materialDesign:Card
+                    Margin="5"
+                    Width="auto"
+                    Padding="auto"
+                    Background="Transparent"
+                    Foreground="{DynamicResource PrimaryHueLightForegroundBrush}">
+                    <TextBlock
+                        FontSize="16"
+                        FontWeight="ExtraBold"
+                        VerticalAlignment="Center"
+                        TextAlignment="Right"
+                        Text="Tên công việc" />
+                </materialDesign:Card>
+            </Grid>
+
+            <Grid Grid.Column="0" Grid.Row="3" Margin="5">
+                <materialDesign:Card
+                    Margin="5"
+                    Width="auto"
+                    Padding="auto"
+                    Background="Transparent"
+                    Foreground="{DynamicResource PrimaryHueLightForegroundBrush}">
+                    <TextBlock
+                        FontSize="16"
+                        FontWeight="ExtraBold"
+                        VerticalAlignment="Center"
+                        TextAlignment="Right"
+                        Text="Mã nhân viên" />
+                </materialDesign:Card>
+            </Grid>
+
+            <Grid Grid.Column="0" Grid.Row="4" Margin="5">
+                <materialDesign:Card
+                    Margin="5"
+                    Width="auto"
+                    Padding="auto"
+                    Background="Transparent"
+                    Foreground="{DynamicResource PrimaryHueLightForegroundBrush}">
+                    <TextBlock
+                        FontSize="16"
+                        FontWeight="ExtraBold"
+                        VerticalAlignment="Center"
+                        TextAlignment="Right"
+                        Text="Mã chuyên môn" />
+                </materialDesign:Card>
+            </Grid>
+
+            <Grid Grid.Column="1" Grid.Row="0" Margin="5">
+                <TextBox
+                    Margin="5 5 5 10"
+                    FontSize="16"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Mã dự án"
+                    materialDesign:TextFieldAssist.HasClearButton="True" />
+            </Grid>
+
+            <Grid Grid.Column="1" Grid.Row="1" Margin="5">
+                <TextBox
+                    Margin="5 5 5 10"
+                    FontSize="16"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Mã công việc"
+                    materialDesign:TextFieldAssist.HasClearButton="True" />
+            </Grid>
+
+            <Grid Grid.Column="1" Grid.Row="2" Margin="5">
+                <TextBox
+                    Margin="5 5 5 10"
+                    FontSize="16"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Tên công việc"
+                    materialDesign:TextFieldAssist.HasClearButton="True" />
+            </Grid>
+
+            <Grid Grid.Column="1" Grid.Row="3" Margin="5">
+                <TextBox
+                    Margin="5 5 5 10"
+                    FontSize="16"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Mã nhân viên"
+                    materialDesign:TextFieldAssist.HasClearButton="True" />
+            </Grid>
+
+            <Grid Grid.Column="1" Grid.Row="4" Margin="5">
+                <TextBox
+                    Margin="5 5 5 10"
+                    FontSize="16"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Mã chuyên môn"
+                    materialDesign:TextFieldAssist.HasClearButton="True" />
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Margin="20">
+                <Button
+                    Width="auto"
+                    Content="_THOÁT"
+                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                    Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                    ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" />
+            </Grid>
+
+            <Grid Grid.Column="1" Margin="20">
+                <Button
+                    Width="auto"
+                    Content="_TRA CỨU"
+                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                    Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                    ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" />
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
