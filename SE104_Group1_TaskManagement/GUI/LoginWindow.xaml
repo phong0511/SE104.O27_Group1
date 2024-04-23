@@ -33,6 +33,7 @@
                     <TextBox
                         VerticalAlignment="Center"
                         materialDesign:HintAssist.Hint="Username"
+                       
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
                 </Grid>
                 <Grid Grid.Row="1">
@@ -51,6 +52,7 @@
                     <Button Grid.Column="0"
                             Width="100"
                             Content="_LOGIN"
+                            Click="Button_Click"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignRaisedDarkButton}"
                             ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" />

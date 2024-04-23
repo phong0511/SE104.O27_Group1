@@ -23,5 +23,15 @@ namespace GUI
         {
             InitializeComponent();
         }
+
+        private string _username;
+        private string _password;
+        public string Username { get { return _username; } set {  _username = value; } }
+        public string Password { get { return _password;} set { _password = value; } }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Dang nhap thanh cong");
+
+        }
     }
 }
