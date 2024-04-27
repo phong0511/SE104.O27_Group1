@@ -14,39 +14,48 @@ namespace DAL
     public class DatabaseAccess : BaseClass
     {
 
-        public string CheckLogicDTO(DTO_TaiKhoan taikhoan)
-        {
-            string user = null;
-            // Hàm connect tới CSDL 
-            //SqlConnection conn = BaseClass;
-            conn.Open();
-            SqlCommand command = new SqlCommand("proc_logic", conn);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@user", taikhoan.EMAIL);
-            command.Parameters.AddWithValue("@pass", taikhoan.PASS);
-            // Kiểm tra quyền các bạn thêm 1 cái parameter...
-            command.Connection = conn;
-            SqlDataReader reader = command.ExecuteReader();
-            if (reader.HasRows)
-            {
-                while (reader.Read())
-                {
-                    user = reader.GetString(0);
-                }
-                reader.Close();
-                conn.Close();
-            }
-            else
-            {
-                reader.Close();
-                conn.Close();
-                return "Tài khoản hoặc mật khẩu không chính xác!";
-            }
+    //    public string CheckLogicDTO(DTO_TaiKhoan taikhoan)
+    //    {
+    //        string user = null;
+    //        // Hàm connect tới CSDL 
+    //        //SqlConnection conn = BaseClass;
+    //        conn.Open();
+    //        SqlCommand command = new SqlCommand("proc_logic", conn);
+    //        command.CommandType = CommandType.StoredProcedure;
+    //        command.Parameters.AddWithValue("@user", taikhoan.EMAIL);
+    //        command.Parameters.AddWithValue("@pass", taikhoan.PASS);
+    //        // Kiểm tra quyền các bạn thêm 1 cái parameter...
+    //        command.Connection = conn;
+    //        SqlDataReader reader = command.ExecuteReader();
+    //        if (reader.HasRows)
+    //        {
+    //            while (reader.Read())
+    //            {
+    //                user = reader.GetString(0);
+    //            }
+    //            reader.Close();
+    //            conn.Close();
+    //        }
+    //        else
+    //        {
+    //            reader.Close();
+    //            conn.Close();
+    //            return "Tài khoản hoặc mật khẩu không chính xác!";
+    //        }
 
-            return user;
-        }
+    //        return user;
+    //    }
+    //}
+    //--Thinh code
+    public static DTO_NhanVien CheckLogicDTO(DTO_TaiKhoan taikhoan)
+    {
+        DTO_NhanVien user = null;
+        
+
+        return user;
     }
-    public class TaiKhoanAcess: DatabaseAccess
+}
+public class TaiKhoanAcess: DatabaseAccess
     {
         public string CheckLogic(DTO_TaiKhoan taikhoan)
         {
