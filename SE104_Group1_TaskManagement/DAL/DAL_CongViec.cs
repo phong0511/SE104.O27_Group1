@@ -345,6 +345,73 @@ namespace DAL
 
         }
 
+        //Nếu có filter nào, set giá trị của filter đó vào DTO, nếu không có thì set "" với string và -1 với số
+        //Ngân sách nằm trong khoảng [NganSachL, NganSachH], nạp thêm thông tin này nếu cần dùng
+        //Với thời gian, nằm trong khoảng [TSTART, TEND] (công việc bắt đầu sau TSTART, kết thúc trước TEND)
+        //Với tiến độ, tiến độ lớn hơn TIENDO trong filter
+        public DataTable GetDataByFiler( DTO_CongViec filter, long NganSachL = -1, long NganSachH = -1)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+
+                conn.Open();
+                string queryString = "SELECT MACV, MADA, MACM, TENCV, CONVERT(smalldatetime,TSTART, 104),  CONVERT(smalldatetime,TEND, 104), NGANSACH, DADUNG, TIENDO, YCDINHKEM, TEPDINHKEM FROM CONGVIEC WHERE ISDELETED <>1";
+
+                if (filter.MADA != "")
+                {
+                    queryString += " AND MADA LIKE " + filter.MADA;
+                }
+                if (filter.MACV != "")
+                {
+                    queryString += " AND MACV LIKE " + filter.MACV;
+                }
+                if (filter.MACM != "")
+                {
+                    queryString += " AND MACM LIKE " + filter.MACM;
+                }
+                if (filter.TENCV != "")
+                {
+                    queryString += " AND TENCV LIKE " + filter.TENCV;
+                }
+                if (NganSachL != -1)
+                {
+                    queryString += " AND NGANSACH >= " + NganSachL;
+                }
+                if (NganSachH != -1)
+                {
+                    queryString += " AND NGANSACH <= " + NganSachH;
+                }
+                if (filter.TIENDO != -1)
+                {
+                    queryString += " AND TIENDO >= " + filter.TIENDO;
+                }
+                if (filter.TSTART != "")
+                {
+                    queryString += " AND TSTART <= CONVERT(smalldatetime," + filter.TSTART + ", 104)";
+                }
+                if (filter.TEND != "")
+                {
+                    queryString += " AND TEND >= CONVERT(smalldatetime," + filter.TEND + ", 104)";
+                }
+
+                var command = new SqlCommand(
+                    queryString,
+                    conn);
+                SqlDataAdapter da = new SqlDataAdapter(command);
+                da.Fill(dt);
+                conn.Close();
+                da.Dispose();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                conn.Close();
+                return dt;
+            }
+
+        }
         string getCrnID()
         {
             try
