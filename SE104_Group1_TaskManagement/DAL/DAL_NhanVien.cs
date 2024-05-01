@@ -215,5 +215,23 @@ namespace DAL
                 return "";
             }
         }
+
+        public static int ThemNhanVien(DTO_NhanVien nhanVienMoi)
+        {
+            if(true)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public static DataTable DanhSachNhanVien()
+        {
+            DataTable dataTable = new DataTable();
+            return dataTable;
+        }
     }
 }
