@@ -396,7 +396,7 @@ namespace DAL
             {
                 
                 conn.Open();
-                string queryString = "SELECT MADA, TENDA, MALSK, NGANSACH,  CONVERT(VARCHAR(10),TSTART,104),  CONVERT(VARCHAR(10),TEND,104), MAOWNER, TINHTRANG FROM DUAN";
+                string queryString = "SELECT MADA, TENDA, MALSK, NGANSACH,  CONVERT(VARCHAR(10),TSTART,104),  CONVERT(VARCHAR(10),TEND,104), MAOWNER, TINHTRANG FROM DUAN WHERE MADA IS NOT NULL";
 
                 var command = new SqlCommand(
                     queryString,
@@ -416,6 +416,71 @@ namespace DAL
 
         }
 
+        //Nếu có filter nào, set giá trị của filter đó vào DTO, nếu không có thì set "" với string và -1 với số
+        //Ngân sách nằm trong khoảng [NganSachL, NganSachH], nạp thêm thông tin này nếu cần dùng
+        //Với thời gian, nằm trong khoảng [TSTART, TEND] (dự án bắt đầu sau TSTART, kết thúc trước TEND)
+        public DataTable GetDataByFilter(DTO_DuAn filter, long NganSachL = -1, long NganSachH = -1)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+
+                conn.Open();
+                string queryString = "SELECT MADA, TENDA, MALSK, NGANSACH,  CONVERT(VARCHAR(10),TSTART,104),  CONVERT(VARCHAR(10),TEND,104), MAOWNER, TINHTRANG FROM DUAN WHERE MADA IS NOT NULL";
+
+                if (filter.MADA!="")
+                {
+                    queryString += " AND MADA LIKE " + filter.MADA;
+                }   
+                if (filter.TENDA!="")
+                {
+                    queryString += " AND TENDA LIKE " + filter.TENDA;
+                }   
+                if (filter.MALSK != "")
+                {
+                    queryString += " AND MALSK LIKE " + filter.MALSK;
+                }   
+                if (filter.MAOWNER != "")
+                {
+                    queryString += " AND MAOWNER LIKE " + filter.MAOWNER;
+                }   
+                if (NganSachL != -1)
+                {
+                    queryString += " AND NGANSACH >= " + NganSachL;
+                }   
+                if (NganSachH != -1)
+                {
+                    queryString += " AND NGANSACH <= " + NganSachH;
+                }
+                if (filter.STAT != "")
+                {
+                    queryString += " AND TINHTRANG LIKE " + filter.STAT;
+                }   
+                if (filter.TSTART != "")
+                {
+                    queryString += " AND TSTART <= CONVERT(smalldatetime," + filter.TSTART +", 104)";
+                }    
+                if (filter.TEND != "")
+                {
+                    queryString += " AND TEND >= CONVERT(smalldatetime," + filter.TEND + ", 104)";
+                }    
+                var command = new SqlCommand(
+                    queryString,
+                    conn);
+                SqlDataAdapter da = new SqlDataAdapter(command);
+                da.Fill(dt);
+                conn.Close();
+                da.Dispose();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                conn.Close();
+                return dt;
+            }
+
+        }
         string getCrnID()
         {
             try
