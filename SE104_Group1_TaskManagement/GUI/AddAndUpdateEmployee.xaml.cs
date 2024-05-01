@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace GUI
 {
     /// <summary>
-    /// Interaction logic for FindEmployee.xaml
+    /// Interaction logic for AddAndUpdateEmployee.xaml
     /// </summary>
-    public partial class FindEmployee : Window
+    public partial class AddAndUpdateEmployee : Window
     {
-        public FindEmployee()
+        public AddAndUpdateEmployee()
         {
             InitializeComponent();
         }
