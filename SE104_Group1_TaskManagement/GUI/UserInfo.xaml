@@ -20,12 +20,12 @@
                 VerticalAlignment="Top"
                 HorizontalAlignment="Center"
                 Padding="8"
-                Background="{DynamicResource PrimaryHueLightBrush}"
+                Background="#FF5C99D6"
                 Foreground="{DynamicResource PrimaryHueLightForegroundBrush}">
                 <TextBlock
-                    FontSize="35"
+                    FontSize="30"
                     FontWeight="ExtraBold"
-                    Text="USER INFORMATION"
+                    Text="ACCOUNT"
                     TextAlignment="Center"/>
             </materialDesign:Card>
         </Grid>
@@ -142,7 +142,7 @@
                         Padding="auto"
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"
-                        Background="GreenYellow"
+                        Background="White"
                         Foreground="Black"
                         UniformCornerRadius="6">
                         <TextBlock
@@ -162,7 +162,7 @@
                         Padding="auto"
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"
-                        Background="GreenYellow"
+                        Background="White"
                         Foreground="Black"
                         UniformCornerRadius="6">
                         <TextBlock
@@ -182,7 +182,7 @@
                         Padding="auto"
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"
-                        Background="GreenYellow"
+                        Background="White"
                         Foreground="Black"
                         UniformCornerRadius="6">
                         <TextBlock
@@ -202,7 +202,7 @@
                         Padding="auto"
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"
-                        Background="GreenYellow"
+                        Background="White"
                         Foreground="Black"
                         UniformCornerRadius="6">
                         <TextBlock
@@ -222,8 +222,7 @@
                         Padding="auto"
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"
-                        Background="GreenYellow"
-                        Foreground="Black"
+                        Background="White"
                         UniformCornerRadius="6">
                         <TextBlock
                             Margin="10 0 0 0"
@@ -253,20 +252,22 @@
                         <Button
                             Width="200"
                             Content="_QUAY VỀ"
+                            Background="#FF5C99D6"
                             FontWeight="ExtraBold"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                            ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" />
+                             />
                 </Grid>
 
                 <Grid Grid.Column="1" Margin="10 0 10 5">
                     <Button
                         Width="200"
                         Content="_BẮT ĐẦU"  
+                        Background="#FF5C99D6"
                         FontWeight="ExtraBold"
                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                         Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                        ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" />
+                         />
                 </Grid>
             </Grid>
 
@@ -276,10 +277,10 @@
                         Background="Transparent"
                         Foreground="LightSkyBlue"
                         FontWeight="ExtraBold"
-                        Content="_ĐỔI MẬT KHẨU?"  
+                        Content="_ĐỔI MẬT KHẨU"  
                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                         Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                        ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" />
+                        />
             </Grid>
         </Grid>
     </Grid>

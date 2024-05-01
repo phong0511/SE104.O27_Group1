@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,18 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
 namespace GUI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interação lógica para MainWindow.xam
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Test : Window
     {
-        public MainWindow()
+        public Test()
         {
             InitializeComponent();
         }
+
 
         private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -57,11 +61,9 @@ namespace GUI
             }
         }
 
-        private void ButtonLogOut_Click(object sender, RoutedEventArgs e)
+        private void ButtonSearch_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+
         }
     }
-    
-
 }

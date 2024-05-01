@@ -13,14 +13,24 @@
      TextOptions.TextRenderingMode="Auto"
      Background="{DynamicResource MaterialDesignPaper}"
      FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="LoginWindow" Height="400" Width="400">
-    <Grid Background="Beige">
-        <materialDesign:Card Width="300" Height="300" VerticalAlignment="Center" HorizontalAlignment="Center">
+        Title="LoginWindow" Height="500" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid Background="#FF5C99D6">
+        <StackPanel Orientation="Vertical" Margin="10">
+            <TextBlock Text="ĐĂNG NHẬP" 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center" 
+                       Width="400"
+                       TextAlignment="Center"
+                       Background="LightBlue"
+                       FontSize="25" 
+                       FontWeight="ExtraBold"/>
+        </StackPanel>
+        <materialDesign:Card Margin="10" Width="400" Height="400" VerticalAlignment="Bottom" HorizontalAlignment="Center">
            
             <Grid>
                 <Grid.Resources>
                     <Style TargetType="Grid">
-                        <Setter Property="Margin" Value="15 15 15 15"></Setter>
+                        <Setter Property="Margin" Value="20"></Setter>
                     </Style> 
                 </Grid.Resources>
                 <Grid.RowDefinitions>
@@ -32,15 +42,23 @@
                 <Grid Grid.Row="0">
                     <TextBox
                         VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="Username"
+
+                        
                        
+
+                        materialDesign:HintAssist.Hint="Tên đăng nhập"
+                        FontSize="20"
+                        materialDesign:TextFieldAssist.HasClearButton="True"
+
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
                 </Grid>
                 <Grid Grid.Row="1">
                     <PasswordBox
                         x:Name="FloatingPasswordBox"
                         materialDesign:HintAssist.Foreground="Green"
-                        materialDesign:HintAssist.Hint="Password"
+                        materialDesign:HintAssist.Hint="Mật khẩu"
+                        FontSize="20"
+                        materialDesign:TextFieldAssist.HasClearButton="True"
                         materialDesign:TextFieldAssist.UnderlineBrush="Green"  
                         Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
                 </Grid>
@@ -49,24 +67,37 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0"
-                            Width="100"
-                            Content="_LOGIN"
+
+                    
+                     
+             
+                            
+
+                    <Button Grid.Column="0" Margin="5"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            Content="ĐĂNG NHẬP"
+                            FontSize="20"
                             Click="Button_Click"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                            ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" />
+                             />
                     <Button Grid.Column="1"
-                             Width="100"
-                            Content="_EXIT"
+                            Margin="5"
+                            Content="THOÁT"
+                            FontSize="20"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                            ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" />
+                            />
                 </Grid>
                 <Grid Grid.Row="3">
                     <Button
                         Width="200"
-                        Content="FORGOT USERNAME?"
+                        Content="QUÊN MẬT KHẨU?"
+                        FontSize="20"
+                        FontWeight="ExtraBold"
                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                         Style="{StaticResource MaterialDesignFlatDarkButton}"
                         ToolTip="MaterialDesignFlatButton" />

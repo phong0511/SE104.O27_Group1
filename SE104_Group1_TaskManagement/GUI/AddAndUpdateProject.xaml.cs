@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace GUI
 {
     /// <summary>
-    /// Interaction logic for FindTask.xaml
+    /// Interaction logic for AddAndUpdateProject.xaml
     /// </summary>
-    public partial class FindTask : Window
+    public partial class AddAndUpdateProject : Window
     {
-        public FindTask()
+        public AddAndUpdateProject()
         {
             InitializeComponent();
         }
