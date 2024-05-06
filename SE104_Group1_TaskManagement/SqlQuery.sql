@@ -245,3 +245,60 @@ BEGIN
         ROLLBACK TRANSACTION;
     END;
 END;
+-----------TAO TAI KHOAN-------------
+CREATE PROCEDURE proc_tao_tai_khoan
+    @maqh NVARCHAR(50),
+    @email NVARCHAR(100),
+    @pass NVARCHAR(100),
+    @manv NVARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Kiểm tra xem tài khoản đã tồn tại hay chưa
+    IF EXISTS (SELECT 1 FROM TaiKhoan WHERE EMAIL = @email)
+    BEGIN
+        RAISERROR ('Email đã được sử dụng cho một tài khoản khác.', 16, 1)
+        RETURN;
+    END
+
+    -- Thêm tài khoản mới vào bảng TaiKhoan
+	INSERT INTO NhanVien (MANV) VALUES (@manv)
+    INSERT INTO TaiKhoan (MAQH, EMAIL, PASS, MANV)
+    VALUES (@maqh, @email, @pass, @manv);
+	
+    -- Thêm logic khác nếu cần
+
+    -- Trả về thông báo thành công
+    SELECT 'Tạo tài khoản thành công' AS Result;
+END
+
+------------DOI MAT KHAU-------------
+CREATE PROCEDURE proc_change_password
+    @Email NVARCHAR(100),
+    @OldPassword NVARCHAR(100),
+    @NewPassword NVARCHAR(100)
+AS
+BEGIN
+    DECLARE @UserID NVARCHAR(6)
+
+    -- Kiểm tra xem email và mật khẩu cũ có khớp không
+    SELECT @UserID = MANV
+    FROM TaiKhoan
+    WHERE Email = @Email AND PASS = @OldPassword
+
+    IF @UserID IS NULL
+    BEGIN
+        -- Trả về thông báo lỗi nếu thông tin không khớp
+        SELECT 'Mật khẩu cũ không chính xác' AS Result
+        RETURN
+    END
+
+    -- Cập nhật mật khẩu mới cho tài khoản
+    UPDATE TaiKhoan
+    SET PASS = @NewPassword
+    WHERE MANV = @UserID
+
+    -- Trả về thông báo thành công
+    SELECT 'Đổi mật khẩu thành công' AS Result
+END
