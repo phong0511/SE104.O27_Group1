@@ -11,60 +11,44 @@ using Microsoft.Data.SqlClient;
 
 namespace DAL
 {
-    public class DatabaseAccess : BaseClass
+    public class DAL_TaiKhoan : BaseClass
     {
 
-    //    public string CheckLogicDTO(DTO_TaiKhoan taikhoan)
-    //    {
-    //        string user = null;
-    //        // Hàm connect tới CSDL 
-    //        //SqlConnection conn = BaseClass;
-    //        conn.Open();
-    //        SqlCommand command = new SqlCommand("proc_logic", conn);
-    //        command.CommandType = CommandType.StoredProcedure;
-    //        command.Parameters.AddWithValue("@user", taikhoan.EMAIL);
-    //        command.Parameters.AddWithValue("@pass", taikhoan.PASS);
-    //        // Kiểm tra quyền các bạn thêm 1 cái parameter...
-    //        command.Connection = conn;
-    //        SqlDataReader reader = command.ExecuteReader();
-    //        if (reader.HasRows)
-    //        {
-    //            while (reader.Read())
-    //            {
-    //                user = reader.GetString(0);
-    //            }
-    //            reader.Close();
-    //            conn.Close();
-    //        }
-    //        else
-    //        {
-    //            reader.Close();
-    //            conn.Close();
-    //            return "Tài khoản hoặc mật khẩu không chính xác!";
-    //        }
-
-    //        return user;
-    //    }
-    //}
-    //--Thinh code
-    public static DTO_NhanVien CheckLogicDTO(DTO_TaiKhoan taikhoan)
-    {
-        DTO_NhanVien user = null;
-        
-
-        return user;
-    }
-}
-public class TaiKhoanAcess: DatabaseAccess
-    {
-        public string CheckLogic(DTO_TaiKhoan taikhoan)
+        public DTO_TaiKhoan CheckLogicDTO(DTO_TaiKhoan taikhoan)
         {
-            string info = CheckLogicDTO(taikhoan);
-            return info;
+            DTO_TaiKhoan user = new DTO_TaiKhoan();
+            // Hàm connect tới CSDL 
+            //SqlConnection conn = BaseClass;
+            conn.Open();
+            SqlCommand command = new SqlCommand("proc_logic", conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@user", taikhoan.EMAIL);
+            command.Parameters.AddWithValue("@pass", taikhoan.PASS);
+            // Kiểm tra quyền các bạn thêm 1 cái parameter...
+            command.Connection = conn;
+            SqlDataReader reader = command.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while(reader.Read())
+                {
+                    user.MAQH = reader.GetString(0);
+                    user.EMAIL = reader.GetString(1);
+                    user.PASS = reader.GetString(2);
+                    user.MANV = reader.GetString(3);
+                }
+                reader.Close();
+                conn.Close();
+                
+            }
+            else
+            {
+                reader.Close();
+                conn.Close();
+            }
+
+            return user;
         }
-    }
-    public class TaoTaiKhoan : BaseClass
-    {
+
         public string TaoMoiTaiKhoan(DTO_TaiKhoan taiKhoan)
         {
             try
@@ -72,7 +56,7 @@ public class TaiKhoanAcess: DatabaseAccess
                 conn.Open();
 
 
-                // Truy vấn để lấy mã nhân viên mới
+               /* // Truy vấn để lấy mã nhân viên mới
                 string query = "SELECT MAX(CAST(SUBSTRING(MANV, 3, LEN(MANV) - 2) AS INT)) FROM NHANVIEN";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 object result = cmd.ExecuteScalar();
@@ -87,8 +71,8 @@ public class TaiKhoanAcess: DatabaseAccess
                 string newManvString = "NV" + newManv.ToString("0000");
 
                 // Thêm mã nhân viên vào đối tượng tài khoản
-                taiKhoan.MANV = newManvString;
-           
+                taiKhoan.MANV = newManvString;*/
+
                 // Tạo tài khoản
 
                 SqlCommand command = new SqlCommand("proc_tao_tai_khoan", conn);
@@ -98,14 +82,15 @@ public class TaiKhoanAcess: DatabaseAccess
                 command.Parameters.AddWithValue("@email", taiKhoan.EMAIL);
                 command.Parameters.AddWithValue("@pass", taiKhoan.PASS);
                 command.Parameters.AddWithValue("@manv", taiKhoan.MANV);
-             
+
 
                 command.ExecuteNonQuery();
-
+                conn.Close();
                 return "Tạo tài khoản thành công!";
             }
             catch (SqlException ex)
             {
+                conn.Close();
                 return "Lỗi khi tạo tài khoản: " + ex.Message;
             }
             finally
@@ -116,11 +101,10 @@ public class TaiKhoanAcess: DatabaseAccess
                 }
             }
         }
-    }
-    public class DoiMatKhau : BaseClass
-    {
-        public string ChangePassword(string email, string oldPassword, string newPassword)
+
+        public (string, DTO_TaiKhoan) ChangePassword(string email, string oldPassword, string newPassword)
         {
+            DTO_TaiKhoan res = new DTO_TaiKhoan();
             try
             {
                 conn.Open();
@@ -130,16 +114,31 @@ public class TaiKhoanAcess: DatabaseAccess
                 command.Parameters.AddWithValue("@OldPassword", oldPassword);
                 command.Parameters.AddWithValue("@NewPassword", newPassword);
                 command.ExecuteNonQuery();
-                return "Đổi mật khẩu thành công!";
+                conn.Close();
+                res = CheckLogicDTO(new DTO_TaiKhoan("", email, newPassword, ""));
+                
+                return ("Đổi mật khẩu thành công!", res);
             }
             catch (SqlException ex)
             {
-                return "Lỗi khi đổi mật khẩu: " + ex.Message;
+                conn.Close();
+                return ("Lỗi khi đổi mật khẩu: " + ex.Message, res);
             }
             finally
             {
                 conn.Close();
             }
         }
+
+       
+        //}
+        //--Thinh code
+        //public static DTO_NhanVien CheckLogicDTO(DTO_TaiKhoan taikhoan)
+        //{
+        //    DTO_NhanVien user = null;
+
+
+        //    return user;
+        //}
     }
 }

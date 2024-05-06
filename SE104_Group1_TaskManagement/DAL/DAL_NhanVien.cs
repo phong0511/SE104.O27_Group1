@@ -111,7 +111,7 @@ namespace DAL
                 if (command.ExecuteNonQuery() > 0)
                 {
                     conn.Close();
-                    return (true, "Thêm nhân viên thành công!");
+                    return (true, manv);
                 }
 
                 conn.Close();
@@ -132,12 +132,12 @@ namespace DAL
         }
         public DTO_NhanVien GetByID(string MANV)
         {
-            
+            DTO_NhanVien res = new DTO_NhanVien();
             try
             {
-                DTO_NhanVien res = new DTO_NhanVien();
+                
                 conn.Open();
-                string queryString = "SELECT MANV, HOTEN, EMAIL, SODT, CONVERT(VARCHAR(10), NGSINH, 104), LVL, MACM, GHICHU FROM NHANVIEN WHERE MANV=@manv AND IsDeleted <> 1";
+                string queryString = "SELECT MANV, HOTEN, EMAIL, SODT, CONVERT(VARCHAR(10), NGSINH, 104) as NGSINH, LVL, MACM, GHICHU FROM NHANVIEN WHERE MANV=@manv AND IsDeleted <> 1";
 
                 var command = new SqlCommand(
                     queryString,
@@ -152,7 +152,7 @@ namespace DAL
                 res.PHONE = reader.GetString(3);
                 res.NGAYSINH = reader.GetString(4);
                 res.LEVEL = reader.GetInt16(5);
-                res.MACM = reader.GetString(6);
+                res.MACM = reader.GetInt32(6).ToString();
                 res.GHICHU = reader.GetString(7);
                 reader.Close();
                 conn.Close();
@@ -162,7 +162,7 @@ namespace DAL
             {
                 Debug.WriteLine(ex.ToString());
                 conn.Close();
-                return null;
+                return res;
             }
         }
         public DataTable GetAllData()
@@ -171,7 +171,7 @@ namespace DAL
             try
             {
                 conn.Open();
-                string queryString = "SELECT MANV, HOTEN, EMAIL, SODT, CONVERT(VARCHAR(10), NGSINH, 104), LVL, MACM, GHICHU FROM NHANVIEN WHERE IsDeleted <> 1";
+                string queryString = "SELECT MANV, HOTEN, EMAIL, SODT, CONVERT(VARCHAR(10), NGSINH, 104) as NGSINH, LVL, MACM, GHICHU FROM NHANVIEN WHERE IsDeleted <> 1";
 
                 var command = new SqlCommand(
                     queryString,
@@ -199,7 +199,7 @@ namespace DAL
             try
             {
                 conn.Open();
-                string queryString = "SELECT MANV, HOTEN, EMAIL, SODT, CONVERT(VARCHAR(10), NGSINH, 104), LVL, MACM, GHICHU FROM NHANVIEN WHERE IsDeleted <> 1";
+                string queryString = "SELECT MANV, HOTEN, EMAIL, SODT, CONVERT(VARCHAR(10), NGSINH, 104) as NGSINH, LVL, MACM, GHICHU FROM NHANVIEN WHERE IsDeleted <> 1";
 
                 if (filter.MANV != "")
                 {
@@ -266,22 +266,5 @@ namespace DAL
             }
         }
 
-        public static int ThemNhanVien(DTO_NhanVien nhanVienMoi)
-        {
-            if(true)
-            {
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
-        public static DataTable DanhSachNhanVien()
-        {
-            DataTable dataTable = new DataTable();
-            return dataTable;
-        }
     }
 }
