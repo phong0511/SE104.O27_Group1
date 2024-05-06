@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BUS;
+using DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,51 @@ namespace GUI
     /// </summary>
     public partial class ChangePassword : Window
     {
-        public ChangePassword()
+        int mode = -1;
+        BUS_TaiKhoan tkManager = new BUS_TaiKhoan();
+        public ChangePassword(int mode)
         {
             InitializeComponent();
+            if (mode == 1)
+            {
+                codeLabel.Visibility = Visibility.Collapsed;
+                codeText.Visibility = Visibility.Collapsed;
+                resend_Btn.Visibility = Visibility.Collapsed;
+            }    
+            else if (mode == 2)
+            {
+                recoverLabel.Text = "Email";
+            }
+            this.mode = mode;
+        }
+
+        private void confirm_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (mode == 1)
+            {
+                (string, DTO_TaiKhoan) newTk = tkManager.ChangeInfo(LoginWindow.crnUser.EMAIL, recoverText.Text, newPassText.Password);
+                if (newTk.Item2.MANV!="")
+                {
+                    LoginWindow.crnUser = newTk.Item2;
+                    MessageBox.Show(newTk.Item1);
+                    this.Close();
+                }   
+                else
+                {
+                    MessageBox.Show(newTk.Item1);
+                }    
+                
+            }    
+        }
+
+        private void out_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void resend_Btn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

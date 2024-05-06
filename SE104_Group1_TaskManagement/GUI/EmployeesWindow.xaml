@@ -59,9 +59,9 @@
                 <TextBlock x:Name="username" Text="User Name" VerticalAlignment="Center" FontSize="16"/>
                 <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="10">
                     <StackPanel Width="100">
-                        <Button Content="Tài khoản"/>
+                        <Button x:Name="tk_Btn" Content="Tài khoản" Click="tk_Btn_Click"/>
                         <Separator/>
-                        <Button Content="Đăng xuất"/>
+                        <Button x:Name="logout_Btn" Content="Đăng xuất" Click="logout_Btn_Click"/>
                     </StackPanel>
                 </materialDesign:PopupBox>
             </StackPanel>

@@ -334,5 +334,21 @@ namespace GUI
                 // Do something with the item...
             }
         }
+
+        private void tk_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            UserInfo userinfWindow = new UserInfo();
+            userinfWindow.ShowDialog();
+        }
+
+        private void logout_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            LoginWindow.crnUser = new DTO_TaiKhoan();
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.Show();
+            MessageBox.Show("Đã đăng xuất khỏi hệ thống");
+            this.Close();
+            
+        }
     }
 }

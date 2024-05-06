@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,30 @@ namespace GUI
     /// </summary>
     public partial class UserInfo : Window
     {
+        public DTO_NhanVien crnUser = new DTO_NhanVien();
         public UserInfo()
         {
             InitializeComponent();
+            crnUser = EmployeesWindow.crnUser;
+            manvText.Text = crnUser.MANV;
+            tennvText.Text = crnUser.TENNV;
+            cmText.Text = crnUser.MACM;
+            levelText.Text = crnUser.LEVEL.ToString();
+            dobText.Text = crnUser.NGAYSINH;
+            emailText.Text = crnUser.EMAIL;
+            phoneText.Text = crnUser.PHONE;
+            noteText.Text = crnUser.GHICHU;
+        }
+
+        private void back_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void changePass_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePassword cPWindow = new ChangePassword(1);
+            cPWindow.ShowDialog();
         }
     }
 }
