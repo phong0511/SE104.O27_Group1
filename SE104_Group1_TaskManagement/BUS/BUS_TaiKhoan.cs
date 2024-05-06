@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -33,5 +34,44 @@ namespace BUS
             return (dalTK.ChangePassword(email, oldPass, newPass));
             //Tra ve instance moi cua DTO_NhanVien
         }
+
+        //Cac ham  kiem tra
+        //Kiem tra ten dang nhap
+        public bool IsValidName (string name)
+        {
+            if(name == null)
+            {
+                return false;
+            }
+            else
+            {
+                foreach(char c in name)
+                {
+                    if(!char.IsLetter(c) || char.IsWhiteSpace(c))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
+        //Kiem tra mat khau
+        public bool IsValidPassword (string password) 
+        { 
+            if(password == null)
+            {
+                return false;   
+            }
+            else
+            {
+                string pattern = @"^[A-Za-z0-9]{6,}$";
+                return Regex.IsMatch(password, pattern);
+            }
+        }
+
+
+
+
     }
 }
