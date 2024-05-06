@@ -92,30 +92,22 @@ namespace DAL
                 string manv = getCrnID();
                 //thêm tên cm vào
                 conn.Open();
-                string queryString = "INSERT INTO NHANVIEN VALUES (@manv, @hoten, @email, @sdt, CONVERT(smalldatetime,@ngaysinh, 104), @lvl, @macm, @ghichu, @isdeleted)";
-                var command = new SqlCommand(
-                    queryString,
-                    conn);
-
-                command.Parameters.Clear();
+               
+                SqlCommand command = new SqlCommand("proc_tao_nhan_vien", conn);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@manv", manv);
                 command.Parameters.AddWithValue("@hoten", nhanVien.TENNV);
                 command.Parameters.AddWithValue("@email", nhanVien.EMAIL);
-                command.Parameters.AddWithValue("@sdt", nhanVien.PHONE);
-                command.Parameters.AddWithValue("@ngaysinh", nhanVien.NGAYSINH);
+                command.Parameters.AddWithValue("@sodt", nhanVien.PHONE);
+                command.Parameters.AddWithValue("@ngsinh", nhanVien.NGAYSINH);
                 command.Parameters.AddWithValue("@lvl", nhanVien.LEVEL);
                 command.Parameters.AddWithValue("@macm", nhanVien.MACM);
                 command.Parameters.AddWithValue("@ghichu", nhanVien.GHICHU);
-                command.Parameters.AddWithValue("@isdeleted", 0);
 
-                if (command.ExecuteNonQuery() > 0)
-                {
-                    conn.Close();
-                    return (true, manv);
-                }
-
+                command.ExecuteNonQuery();
                 conn.Close();
-                return (false, "Thêm không thành công!");
+                return (true, manv);
+
             }
             catch (SqlException e)
             {

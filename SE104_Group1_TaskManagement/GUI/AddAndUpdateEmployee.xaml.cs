@@ -25,7 +25,12 @@ namespace GUI
         BUS_TaiKhoan tkManager = new BUS_TaiKhoan();
         public AddAndUpdateEmployee(DTO_NhanVien initializeNV = null)
         {
+            
             InitializeComponent();
+            qhText.Items.Add(1);
+            qhText.Items.Add((2));
+            qhText.Items.Add((3));
+            qhText.Items.Add((4));
             if (initializeNV != null)
             {
                 wTitle.Text = "SỬA NHÂN VIÊN";
@@ -39,6 +44,7 @@ namespace GUI
                 emailText.Text = initializeNV.EMAIL;
                 phoneText.Text = initializeNV.PHONE;
                 noteText.Text = initializeNV.GHICHU;
+                
             }    
         }
 
@@ -58,7 +64,7 @@ namespace GUI
             
             if (res.Item1 == true)
             {
-                DTO_TaiKhoan tk = new DTO_TaiKhoan("4", newNV.EMAIL, newNV.PHONE, res.Item2);
+                DTO_TaiKhoan tk = new DTO_TaiKhoan(qhText.Text, newNV.EMAIL, newNV.PHONE, res.Item2);
                 tkManager.Register(tk);
                 MessageBox.Show("Thêm nhân viên thành công!");
                 this.DialogResult = true;
