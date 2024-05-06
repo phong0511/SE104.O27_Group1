@@ -172,10 +172,11 @@
 
                 <Grid Grid.Column="0" Margin="5">
                     <Button
+                     Click="Add_Button_Click"
                      Width="50" Height="50"
                      IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                      Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
-                     ToolTip="Add New">
+                     ToolTip="Add New" VerticalAlignment="Top">
                         <materialDesign:PackIcon
                          Kind="Add" />
                     </Button>
@@ -242,29 +243,28 @@
                                     </DataTemplate>
                                 </DataGridCheckBoxColumn.HeaderTemplate>
                             </DataGridCheckBoxColumn>
-                            <DataGridTextColumn Header="ID" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding ID}"/>
-                            <DataGridTextColumn Header="Mã nhân viên" Binding="{Binding EmployeeCode}" IsReadOnly="True" Width="*"/>
+                            <DataGridTextColumn Header="Mã nhân viên" Binding="{Binding MANV}" IsReadOnly="True" Width="*"/>
                             <DataGridTemplateColumn Header="Tên nhân viên" IsReadOnly="True" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                            <TextBlock Text="{Binding EmployeeName}" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding TENNV}" VerticalAlignment="Center"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Phái" Binding="{Binding Gender}" IsReadOnly="True" Width="*"/>
-                            <DataGridTextColumn Header="Chuyên môn" Binding="{Binding Technique}" IsReadOnly="True" Width="*"/>
-                            <DataGridTextColumn Header="Quyền hạn" Binding="{Binding Level}" IsReadOnly="True" Width="*"/>
-                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" IsReadOnly="True" Width="*"/>
-                            <DataGridTextColumn Header="SĐT" Binding="{Binding Phone}" IsReadOnly="True" Width="*"/>
-                            <DataGridTextColumn Header="Ghi chú" Binding="{Binding Note}" IsReadOnly="True" Width="*"/>
+                            <DataGridTextColumn Header="Chuyên môn" Binding="{Binding MACM}" IsReadOnly="True" Width="*"/>
+                            <DataGridTextColumn Header="Level" Binding="{Binding LEVEL}" IsReadOnly="True" Width="*"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding EMAIL}" IsReadOnly="True" Width="*"/>
+                            <DataGridTextColumn Header="Ngày sinh" Binding="{Binding NGAYSINH}" IsReadOnly="True" Width="*"/>
+                            <DataGridTextColumn Header="SĐT" Binding="{Binding PHONE}" IsReadOnly="True" Width="*"/>
+                            <DataGridTextColumn Header="Ghi chú" Binding="{Binding GHICHU}" IsReadOnly="True" Width="*"/>
                             <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource gridEditButton}">
+                                            <Button Style="{StaticResource gridEditButton}" Click="EditButton_Click">
                                                 <materialDesign:PackIcon Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
-                                            <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}">
+                                            <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}" Click="DeleteButton_Click">
                                                 <materialDesign:PackIcon Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                         </StackPanel>

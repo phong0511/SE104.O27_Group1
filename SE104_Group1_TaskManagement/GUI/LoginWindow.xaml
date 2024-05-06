@@ -41,6 +41,7 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
                     <TextBox
+                        x:Name="Name"
                         VerticalAlignment="Center"
 
                         

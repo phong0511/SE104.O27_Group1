@@ -25,10 +25,11 @@
                 Foreground="{DynamicResource PrimaryHueLightForegroundBrush}">
 
                     <TextBlock
+                        x:Name="wTitle"
                         VerticalAlignment="Top"
                         FontSize="20"
                         FontWeight="ExtraBold"
-                        Text="THÊM/SỬA NHÂN VIÊN"
+                        Text="THÊM NHÂN VIÊN"
                         TextAlignment="Center"/>
             </materialDesign:Card>
         </Grid>
@@ -40,6 +41,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
+                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -74,7 +76,7 @@
                HorizontalAlignment="Right"/>
             </Grid>
 
-            <Grid Grid.Column="0" Grid.Row="3" Margin="0 0 5 0">
+            <Grid Grid.Column="0" Grid.Row="4" Margin="0 0 5 0">
                 <TextBlock Text="Chuyên môn" 
                FontSize="15"
                FontWeight="Bold"
@@ -82,16 +84,8 @@
                HorizontalAlignment="Right"/>
             </Grid>
 
-            <Grid Grid.Column="0" Grid.Row="4" Margin="0 0 5 0">
-                <TextBlock Text="Quyền hạn" 
-               FontSize="15"
-               FontWeight="Bold"
-               VerticalAlignment="Center" 
-               HorizontalAlignment="Right"/>
-            </Grid>
-
             <Grid Grid.Column="0" Grid.Row="5" Margin="0 0 5 0">
-                <TextBlock Text="Email" 
+                <TextBlock Text="Level" 
                FontSize="15"
                FontWeight="Bold"
                VerticalAlignment="Center" 
@@ -99,7 +93,7 @@
             </Grid>
 
             <Grid Grid.Column="0" Grid.Row="6" Margin="0 0 5 0">
-                <TextBlock Text="Số điện thoại" 
+                <TextBlock Text="Email" 
                FontSize="15"
                FontWeight="Bold"
                VerticalAlignment="Center" 
@@ -107,7 +101,22 @@
             </Grid>
 
             <Grid Grid.Column="0" Grid.Row="7" Margin="0 0 5 0">
+                <TextBlock Text="Số điện thoại" 
+               FontSize="15"
+               FontWeight="Bold"
+               VerticalAlignment="Center" 
+               HorizontalAlignment="Right"/>
+            </Grid>
+
+            <Grid Grid.Column="0" Grid.Row="8" Margin="0 0 5 0">
                 <TextBlock Text="Ghi chú" 
+                           FontSize="15"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Right"/>
+            </Grid>
+            <Grid Grid.Column="0" Grid.Row="3" Margin="0 0 5 0">
+                <TextBlock Text="Ngày sinh" 
                            FontSize="15"
                            FontWeight="Bold"
                            VerticalAlignment="Center" 
@@ -116,8 +125,10 @@
 
             <Grid Grid.Column="1" Grid.Row="0" Margin="5">
                 <TextBox
+                    x:Name="manvText"
                     Margin="10 0 0 10"
                     VerticalAlignment="Center"
+                    IsReadOnly="True"
                     materialDesign:HintAssist.Hint="Mã nhân viên"
                     FontSize="15"
                     materialDesign:TextFieldAssist.HasClearButton="True"
@@ -126,6 +137,7 @@
 
             <Grid Grid.Column="1" Grid.Row="1" Margin="5">
                 <TextBox
+                    x:Name="tennvText"
                     Margin="10 0 0 10"
                     VerticalAlignment="Center"
                     materialDesign:HintAssist.Hint="Tên nhân viên"
@@ -157,8 +169,9 @@
                 </Grid>
             </Grid>
 
-            <Grid Grid.Column="1" Grid.Row="3" Margin="5">
+            <Grid Grid.Column="1" Grid.Row="4" Margin="5">
                 <TextBox
+                    x:Name="cmText"
                     Margin="10 0 0 10"
                     VerticalAlignment="Center"
                     materialDesign:HintAssist.Hint="Chuyên môn"
@@ -167,18 +180,20 @@
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
             </Grid>
 
-            <Grid Grid.Column="1" Grid.Row="4" Margin="5">
-                <TextBox                    
+            <Grid Grid.Column="1" Grid.Row="5" Margin="5">
+                <TextBox      
+                    x:Name="levelText"
                     Margin="10 0 0 10"
                     VerticalAlignment="Center"
-                    materialDesign:HintAssist.Hint="Quyền hạn"
+                    materialDesign:HintAssist.Hint="Level"
                     FontSize="15"
                     materialDesign:TextFieldAssist.HasClearButton="True"
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
             </Grid>
 
-            <Grid Grid.Column="1" Grid.Row="5" Margin="5">
+            <Grid Grid.Column="1" Grid.Row="6" Margin="5">
                 <TextBox
+                    x:Name="emailText"
                     Margin="10 0 0 10"        
                     VerticalAlignment="Center"
                     materialDesign:HintAssist.Hint="Email"
@@ -187,8 +202,9 @@
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
             </Grid>
 
-            <Grid Grid.Column="1" Grid.Row="6" Margin="5">
+            <Grid Grid.Column="1" Grid.Row="7" Margin="5">
                 <TextBox
+                    x:Name="phoneText"
                     Margin="10 0 0 10"
                     VerticalAlignment="Center"
                     materialDesign:HintAssist.Hint="Số điện thoại"
@@ -197,8 +213,9 @@
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
             </Grid>
 
-            <Grid Grid.Column="1" Grid.Row="7" Margin="5">
+            <Grid Grid.Column="1" Grid.Row="8" Margin="5">
                 <TextBox
+                    x:Name="noteText"
                     Margin="10 0 0 10"
                     VerticalAlignment="Center"
                     materialDesign:HintAssist.Hint="Ghi chú"
@@ -206,15 +223,24 @@
                     materialDesign:TextFieldAssist.HasClearButton="True"
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
             </Grid>
-
+            <Grid Grid.Column="1" Grid.Row="3" Margin="5">
+                <TextBox
+                    x:Name="dobText"
+                    Margin="10 0 0 10"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Ngày sinh"
+                    FontSize="15"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+            </Grid>
         </Grid>
 
         <Grid Grid.Row="2">
-            <Button x:Name="ButtonAddNew" HorizontalAlignment="Right" Width="100" Margin="10">
+            <Button x:Name="ButtonAddNew" HorizontalAlignment="Right" Width="100" Margin="10" Click="ButtonAddNew_Click">
                 <TextBlock Text="THÊM" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"/>
             </Button>
 
-            <Button x:Name="ButtonUpdate" HorizontalAlignment="Right" Width="100" Margin="10" Visibility="Collapsed">
+            <Button x:Name="ButtonUpdate" HorizontalAlignment="Right" Width="100" Margin="10" Visibility="Collapsed" Click="ButtonUpdate_Click">
                 <TextBlock Text="SỬA" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"/>
             </Button>
         </Grid>
