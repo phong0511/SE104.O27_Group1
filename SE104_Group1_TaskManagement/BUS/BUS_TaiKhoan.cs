@@ -1,12 +1,10 @@
 ﻿using DAL;
 using DTO;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
 
 namespace BUS
 {
@@ -28,7 +26,7 @@ namespace BUS
             }
         }
 
-        public (string ,DTO_TaiKhoan?) ChangeInfo(string email, string oldPass, string newPass) 
+        public (string ,DTO_TaiKhoan?) ChangePassWord(string email, string oldPass, string newPass) 
         {
             if(IsValidEmail(email))
             {
@@ -42,6 +40,62 @@ namespace BUS
             //Tra ve instance moi cua DTO_NhanVien
         }
 
+        public string TaoMoiTaiKhoan(DTO_TaiKhoan tk)
+        {
+            if (!IsValidEmail(tk.EMAIL))
+                return "Invalid_email";
+            else if (!IsValidPassword(tk.PASS))
+                return "invalid_password";
+            else
+            {
+                return dalTK.TaoMoiTaiKhoan(tk);
+            }
+        }
+
+        public string SendCode(string email)
+        {
+          
+            //Tao code
+            Random r = new Random();
+            string code = "";
+            for(int i = 0; i < 6; i++)
+            {
+                code += r.Next(0, 9).ToString();
+            }
+
+            // Thông tin tài khoản email
+            string fromEmail = "your-email@gmail.com";
+            string password = "your-email-password";
+            string toEmail = "recipient-email@example.com";
+
+            // Tạo đối tượng MimeMessage
+            MimeMessage message = new MimeMessage();
+            message.From.Add(new MailboxAddress("SE104_Group14", fromEmail));
+            message.To.Add(new MailboxAddress("", toEmail));
+            message.Subject = "MA XAC NHAN";
+            message.Body = new TextPart("plain")
+            {
+                Text = "Ma xac nhan cua ban la: " + code
+            };
+
+            // Cấu hình thông tin SMTP
+            using (var client = new SmtpClient())
+            {
+                try
+                {
+                    client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+                    client.Authenticate(fromEmail, password);
+                    client.Send(message);
+                    client.Disconnect(true);
+
+                    return ("Email đã được gửi thành công.");
+                }
+                catch (Exception ex)
+                {
+                    return ("Có lỗi xảy ra khi gửi email: " + ex.Message);
+                }
+            }
+        }
         //Cac ham  kiem tra
         //Kiem tra ten dang nhap
         public bool IsValidEmail(string email)

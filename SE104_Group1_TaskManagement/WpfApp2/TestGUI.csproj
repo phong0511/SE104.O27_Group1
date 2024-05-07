@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BUS\BUS.csproj" />
     <ProjectReference Include="..\DAL\DAL.csproj" />
     <ProjectReference Include="..\DTO\DTO.csproj" />
     <ProjectReference Include="..\TestBUS\TestBUS.csproj" />

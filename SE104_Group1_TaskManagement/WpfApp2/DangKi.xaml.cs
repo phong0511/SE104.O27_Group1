@@ -18,9 +18,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using TestBUS;
 using DAL;
 using System.Windows.Navigation;
+using BUS;
 
 namespace TestGUI
 {
