@@ -16,43 +16,47 @@ namespace BUS
         //--Kiem tra tai khoan co ton tai hay khong, neu ton tai thi tra ve mot doi tuong cua lop DTO_NhanVien
         //
         DAL_TaiKhoan dalTK = new DAL_TaiKhoan();
-        public DTO_TaiKhoan Login(DTO_TaiKhoan tk)
+        public (DTO_TaiKhoan? , string) Login(DTO_TaiKhoan tk)
         {
-            return dalTK.CheckLogicDTO(tk);
-            //Tra ve mot doi tuong cua lop DTO_NhanVien neu tk co ton tai
-            //Tra ve mot doi tuong thuoc lop DTO_NhanVien co ma nhan vien = -1 neu tai khoan khong ton tai
+            if (!IsValidEmail(tk.EMAIL))
+                return (null, "Invalid_email");
+            else if (!IsValidPassword(tk.PASS))
+                return (null, "invalid_password");
+            else
+            {
+                return (dalTK.CheckLogicDTO(tk), "valid_info");
+            }
         }
 
-        public string Register(DTO_TaiKhoan tk)
+        public (string ,DTO_TaiKhoan?) ChangeInfo(string email, string oldPass, string newPass) 
         {
-            return dalTK.TaoMoiTaiKhoan(tk); //Chuyen ham tao moi tai khoan thanh static 
-            //Tra ve mot instance cua DTO_NhanVien voi cac gia tri da duoc khoi tao
-        }
-
-        public (string, DTO_TaiKhoan) ChangeInfo(string email, string oldPass, string newPass) 
-        {
-            return (dalTK.ChangePassword(email, oldPass, newPass));
+            if(IsValidEmail(email))
+            {
+                return ("Invalid_email", null);
+            }
+            else if(IsValidPassword(oldPass) || IsValidPassword(newPass)) 
+            {
+                return ("Invalid_password", null);
+            }
+            return dalTK.ChangePassword(email, oldPass, newPass);
             //Tra ve instance moi cua DTO_NhanVien
         }
 
         //Cac ham  kiem tra
         //Kiem tra ten dang nhap
-        public bool IsValidName (string name)
+        public bool IsValidEmail(string email)
         {
-            if(name == null)
-            {
+            if (email == null)
                 return false;
-            }
             else
             {
-                foreach(char c in name)
-                {
-                    if(!char.IsLetter(c) || char.IsWhiteSpace(c))
-                    {
-                        return false;
-                    }
-                }
-                return true;
+                // Mẫu regex để kiểm tra định dạng email
+                string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+
+                // Kiểm tra xem chuỗi khớp với mẫu regex hay không
+                bool isMatch = Regex.IsMatch(email, pattern);
+
+                return isMatch;
             }
         }
 
