@@ -186,14 +186,16 @@
                     <ColumnDefinition Width="2*"></ColumnDefinition>
                     <ColumnDefinition Width="3*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0"
+                <ComboBox Grid.Column="0"
                     x:Name="cmText"
                     Margin="10 0 0 10"
                     VerticalAlignment="Center"
                     materialDesign:HintAssist.Hint="Chuyên môn"
                     FontSize="15"
+  
+                    
                     materialDesign:TextFieldAssist.HasClearButton="True"
-                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
                 <TextBlock Text="Level"  Grid.Column="1"
                     FontSize="15"
                     FontWeight="Bold"

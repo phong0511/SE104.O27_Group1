@@ -246,7 +246,7 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Chuyên môn" Binding="{Binding MACM}" IsReadOnly="True" Width="*"/>
+                            <DataGridTextColumn Header="Chuyên môn" IsReadOnly="True" Width="*"/>
                             <DataGridTextColumn Header="Level" Binding="{Binding LEVEL}" IsReadOnly="True" Width="*"/>
                             <DataGridTextColumn Header="Email" Binding="{Binding EMAIL}" IsReadOnly="True" Width="*"/>
                             <DataGridTextColumn Header="Ngày sinh" Binding="{Binding NGAYSINH}" IsReadOnly="True" Width="*"/>

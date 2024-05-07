@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace GUI
         BUS_NhanVien nvManager = new BUS_NhanVien();
         BUS_TaiKhoan tkManager = new BUS_TaiKhoan();
         BindingList<DTO_NhanVien> members = new BindingList<DTO_NhanVien>();
+        Dictionary<string, DTO_ChuyenMon> cm = BUS_StaticTables.Instance.GetAllDataCM();
         public EmployeesWindow()
         {
             
@@ -57,6 +59,7 @@ namespace GUI
         private void MembersDataGrid_LoadingRow(object? sender, DataGridRowEventArgs e)
         {
             var firstCol = membersDataGrid.Columns.FirstOrDefault(c => c.Header.ToString() == "C");
+            var cmCol = membersDataGrid.Columns.First(c => c.Header.ToString() == "Chuyên môn");
             e.Row.Loaded += (s, args) =>
             {
                 var row = (DataGridRow)s;
@@ -74,14 +77,22 @@ namespace GUI
                         }
                     }
                 }
+
+                if (cmCol != null)
+                {
+                    var chBx = cmCol.GetCellContent(row) as TextBlock;
+                    DTO_ChuyenMon temp = new DTO_ChuyenMon();
+                    cm.TryGetValue(nv.MACM, out temp);
+                    chBx.Text = temp.TENCM;
+                    
+                }
             };
         }
 
-       void showMember()
+        
+        void showMember()
         {
             membersDataGrid.ItemsSource = members;
-            
-
         }
         private void Add_Button_Click(object sender, RoutedEventArgs e)
         {

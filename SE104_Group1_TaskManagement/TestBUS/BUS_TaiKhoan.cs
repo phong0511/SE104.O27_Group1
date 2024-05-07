@@ -10,7 +10,7 @@ namespace TestBUS
 {
     public class BUS_TaiKhoan
     {
-        TaiKhoanAcess tkAccess = new TaiKhoanAcess();
+        DAL_TaiKhoan tkAccess = new DAL_TaiKhoan();
         public string CheckLogic(DTO_TaiKhoan taikhoan)
         {
             // Kiểm tra nghiệp vụ
@@ -36,7 +36,7 @@ namespace TestBUS
             }
 
             // Tạo một instance của lớp DAL_TaiKhoan
-            TaoTaiKhoan dalTaiKhoan = new TaoTaiKhoan();
+            DAL_TaiKhoan dalTaiKhoan = new DAL_TaiKhoan();
             
             // Gọi phương thức tạo tài khoản trong lớp DAL_TaiKhoan
             string result = dalTaiKhoan.TaoMoiTaiKhoan(taiKhoan);
@@ -56,9 +56,9 @@ namespace TestBUS
     }
     public class DoiMatKhauBUS
     {
-        private readonly DoiMatKhau taiKhoanDAL = new DoiMatKhau();
+        private readonly DAL_TaiKhoan taiKhoanDAL = new DAL_TaiKhoan();
 
-        public string ChangePassword(string email, string oldPassword, string newPassword)
+        public (string, DTO_TaiKhoan) ChangePassword(string email, string oldPassword, string newPassword)
         {
             return taiKhoanDAL.ChangePassword(email, oldPassword, newPassword);
         }

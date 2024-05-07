@@ -2,6 +2,8 @@
 using DTO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,14 +25,13 @@ namespace GUI
     {
         BUS_NhanVien nvManager = new BUS_NhanVien();
         BUS_TaiKhoan tkManager = new BUS_TaiKhoan();
+        
         public AddAndUpdateEmployee(DTO_NhanVien initializeNV = null)
         {
             
             InitializeComponent();
-            qhText.Items.Add(1);
-            qhText.Items.Add((2));
-            qhText.Items.Add((3));
-            qhText.Items.Add((4));
+
+            BindingDropDown();
             if (initializeNV != null)
             {
                 wTitle.Text = "SỬA NHÂN VIÊN";
@@ -38,7 +39,7 @@ namespace GUI
                 ButtonUpdate.Visibility = Visibility.Visible;
                 manvText.Text = initializeNV.MANV;
                 tennvText.Text = initializeNV.TENNV;
-                cmText.Text = initializeNV.MACM;
+                cmText.SelectedValue = initializeNV.MACM;
                 levelText.Text = initializeNV.LEVEL.ToString();
                 dobText.Text = initializeNV.NGAYSINH;
                 emailText.Text = initializeNV.EMAIL;
@@ -47,12 +48,25 @@ namespace GUI
                 
             }    
         }
+        void BindingDropDown()
+        {
+            Dictionary<string, DTO_QuyenHan> qh = BUS_StaticTables.Instance.GetAllDataQH();
+ 
+            qhText.ItemsSource = qh;
+            qhText.DisplayMemberPath = "Value.TENQH";
+            qhText.SelectedValuePath = "Value.MAQH";
 
+            Dictionary<string, DTO_ChuyenMon> cm = BUS_StaticTables.Instance.GetAllDataCM();
+
+            cmText.ItemsSource = cm;
+            cmText.DisplayMemberPath = "Value.TENCM";
+            cmText.SelectedValuePath = "Value.MACM";
+        }    
         private void ButtonAddNew_Click(object sender, RoutedEventArgs e)
         {
             DTO_NhanVien newNV = new DTO_NhanVien();
             newNV.TENNV = tennvText.Text;
-            newNV.MACM = cmText.Text;
+            newNV.MACM = cmText.SelectedValue != null ? cmText.SelectedValue.ToString() : "";
             int level = -1;
             int.TryParse(levelText.Text, out level);
             newNV.LEVEL=level;
@@ -64,7 +78,7 @@ namespace GUI
             
             if (res.Item1 == true)
             {
-                DTO_TaiKhoan tk = new DTO_TaiKhoan(qhText.Text, newNV.EMAIL, newNV.PHONE, res.Item2);
+                DTO_TaiKhoan tk = new DTO_TaiKhoan(qhText.SelectedValue.ToString(), newNV.EMAIL, newNV.PHONE, res.Item2);
                 tkManager.Register(tk);
                 MessageBox.Show("Thêm nhân viên thành công!");
                 this.DialogResult = true;
@@ -82,7 +96,7 @@ namespace GUI
             DTO_NhanVien nv = new DTO_NhanVien();
             nv.MANV = manvText.Text;
             nv.TENNV = tennvText.Text;
-            nv.MACM = cmText.Text;
+            nv.MACM = cmText.SelectedValue.ToString();
             int level = -1;
             int.TryParse(levelText.Text, out level);
             nv.LEVEL = level;
