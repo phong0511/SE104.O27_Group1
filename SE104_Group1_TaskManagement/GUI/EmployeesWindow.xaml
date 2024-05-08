@@ -211,9 +211,10 @@
                         </Button>
                         <TextBox
                          Width="300"
+                         x:Name="searchText"
                          Margin="8,0,8,0"
                          VerticalAlignment="Center"
-                         materialDesign:HintAssist.Hint="Search bar"
+                         materialDesign:HintAssist.Hint="Họ tên/ Mã nhân viên"
                          materialDesign:TextFieldAssist.DecorationVisibility="Visible"
                          materialDesign:TextFieldAssist.HasClearButton="True">
                         </TextBox>
@@ -229,7 +230,7 @@
 
                 <Grid Grid.Column="0">
                     <!--Members Data Grid-->
-                    <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="membersDataGrid" Style="{DynamicResource DataGridStyle1}">
+                    <DataGrid Margin="10 0 20 0" RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="membersDataGrid" Style="{DynamicResource DataGridStyle1}">
                         <DataGrid.Columns>
                             <DataGridCheckBoxColumn Header="C" CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
                                 <DataGridCheckBoxColumn.HeaderTemplate>
@@ -277,32 +278,60 @@
                             <materialDesign:PackIcon Kind="Filter" Width="30" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <TextBlock Text="Lọc theo ..." FontSize="15" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </StackPanel>
+                        <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <WrapPanel Orientation="Horizontal">
+                                <CheckBox x:Name="lvlCheck" IsChecked="False" Width="30"/>
+                                <TextBlock Text="Level" VerticalAlignment="Center"/>
+                                <TextBox
+                                x:Name="lvlText"
+                                Margin="10 0 0 0"        
+                                VerticalAlignment="Center"
+                                materialDesign:HintAssist.Hint="Level"
+                                FontSize="12"
+                                Style="{StaticResource MaterialDesignTextBox}" />
+                            </WrapPanel>
 
-                        <ListView>
-                            <StackPanel Height="20" Orientation="Horizontal">
-                                <CheckBox IsChecked="False" Width="30"/>
-                                <TextBlock Text="Mã nhân viên"/>
-                            </StackPanel>
-
-                            <StackPanel Height="20" Orientation="Horizontal">
-                                <CheckBox IsChecked="False" Width="30"/>
-                                <TextBlock Text="Tên nhân viên"/>
-                            </StackPanel>
-
-                            <StackPanel Height="20" Orientation="Horizontal">
-                                <CheckBox IsChecked="False" Width="30"/>
-                                <TextBlock Text="Phái"/>
-                            </StackPanel>
-
-                            <StackPanel Height="20" Orientation="Horizontal">
-                                <CheckBox IsChecked="False" Width="30"/>
+                            <WrapPanel   Orientation="Horizontal" Margin="0 10 0 0">
+                                <CheckBox x:Name="cmCheck" IsChecked="False" Width="30"/>
                                 <TextBlock Text="Chuyên môn"/>
-                            </StackPanel>
+                                <ComboBox
+                                x:Name="cmText"
+                                Margin="10 0 0 10"
+                                VerticalAlignment="Center"
+                                materialDesign:HintAssist.Hint="Chuyên môn"
+                                FontSize="12"
+  
+                    
+                                materialDesign:TextFieldAssist.HasClearButton="True"
+                                Style="{StaticResource MaterialDesignComboBox}" />
+                            </WrapPanel>
 
-                            <StackPanel Height="20" Orientation="Horizontal">
-                                <CheckBox IsChecked="False" Width="30"/>
-                                <TextBlock Text="Quyền hạn"/>
-                            </StackPanel>
+                            <WrapPanel Orientation="Horizontal" Margin="0 10 0 0">
+                                <CheckBox x:Name="emailCheck" IsChecked="False" Width="30"/>
+                                <TextBlock Text="Email"/>
+                                <TextBox
+                                MinWidth="100"
+                                x:Name="emailText"
+                                Margin="10 0 0 0"        
+                                VerticalAlignment="Center"
+                                materialDesign:HintAssist.Hint="Email"
+                                FontSize="12"
+                                Style="{StaticResource MaterialDesignTextBox}" />
+                            </WrapPanel>
+
+                            <WrapPanel Orientation="Horizontal" Margin="0 10 0 0">
+                                <CheckBox x:Name="phoneCheck" IsChecked="False" Width="30"/>
+                                <TextBlock Text="Số điện thoại"/>
+                                <TextBox
+                                MinWidth="100"
+                                x:Name="phoneText"
+                                Margin="10 0 0 0"        
+                                VerticalAlignment="Center"
+                                materialDesign:HintAssist.Hint="Số điện thoại"
+                                FontSize="12"
+                                Style="{StaticResource MaterialDesignTextBox}" />
+                            </WrapPanel>
+                            
 
                         </ListView>
                     </StackPanel>
