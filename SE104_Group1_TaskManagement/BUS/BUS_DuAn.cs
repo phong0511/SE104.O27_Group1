@@ -39,6 +39,7 @@ namespace BUS
             return result;
         }
 
+        //ADD
         public (bool, string) AddData(DTO_DuAn DuAnMoi)
         {
             (bool result, string message) = IsValidProjectInfo(DuAnMoi);
@@ -52,6 +53,7 @@ namespace BUS
             }
         }
 
+        //EDIT
         public (bool, string) EditProject(DTO_DuAn DuAnCanSua)
         {
             (bool result, string message) = IsValidProjectInfo(DuAnCanSua);
@@ -64,27 +66,69 @@ namespace BUS
                 return (dalDA.SetData(DuAnCanSua));
             }
         }
+
+        //SET STATUS
+        public (bool,string) SetStatus(string MADA, string Status)
+        {
+            return (dalDA.SetStatByID(MADA, Status));
+        }
+        
+        public string GetStatbyID(string ID) 
+        {
+            return dalDA.GetStatByID(ID);        
+        }
         public DTO_DuAn GetByID(string ID)
         {
             return dalDA.GetByID(ID);
         }
+        public (string, DataTable) GetByName(string name)
+        {
+            bool result = (IsValidNameProject(name)); 
+            if (result == false)
+            {
+                return ("Ten du an khong hop le", null);
+            }    
+            else 
+                return (null ,dalDA.GetByName(name));
+        }
+        public (string,DataTable) GetByTStartLimit(DateTime TStartLimit)
+        {
+            bool result = (IsValidTSTART(TStartLimit));
+            if (result == false)
+            {
+                return ("Ten du an khong hop le", null);
+            }
+            else
+                return (null , dalDA.GetByTStartLimit(TStartLimit));
+        }
+        public (string, DataTable) GetByTENDLimit(DateTime TEndLimit)
+        {
+            bool result = (IsValidTEND(TEndLimit));
+            if (result == false)
+            {
+                return ("Ten du an khong hop le", null);
+            }
+            else
+                return (null, dalDA.GetByTEndLimit(TEndLimit));
+        }
+            
         public DataTable FindDA(DTO_DuAn filter)
         {
             return dalDA.GetDataByFilter(filter);
         }
+       
         //check staff info 
         public static (bool, string) IsValidProjectInfo(DTO_DuAn DA)
         {
             if (DA == null)
                 return (false, "Du an khong ton tai");
             if (!IsValidNameProject(DA.TENDA))
-                return (false, "Ten du an hop le");
+                return (false, "Ten du an khong hop le");
             if (!IsValidTSTART(DateTime.Now))
                 return (false, "Ngay bat dau khong hop le");
             if (!IsValidTEND(DateTime.Now))
                 return (false, "Ngay ket thuc khong hop le");
             return (true, "Thong tin hop le");
-
         }
 
         //check Project's name
@@ -105,7 +149,7 @@ namespace BUS
             }
         }
 
-
+       
         //check start date
         public static bool IsValidTSTART(DateTime NgayBatDau)
         {
