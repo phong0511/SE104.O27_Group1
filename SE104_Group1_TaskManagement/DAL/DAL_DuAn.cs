@@ -221,7 +221,7 @@ namespace DAL
             }
         }
 
-        public DataTable GetByTStartLimit(string TStartLimit) //lấy dự án bắt đầu sau mốc thời gian TStart
+        public DataTable GetByTStartLimit(DateTime TStartLimit) //lấy dự án bắt đầu sau mốc thời gian TStart
         {
             DataTable dt = new DataTable();
             try
@@ -250,7 +250,7 @@ namespace DAL
             }
         }
 
-        public DataTable GetByTEndLimit(string TEndLimit) //lấy dự án kết thúc trước mốc thời gian TEnd
+        public DataTable GetByTEndLimit(DateTime TEndLimit) //lấy dự án kết thúc trước mốc thời gian TEnd
         {
             DataTable dt = new DataTable();
             try

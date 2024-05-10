@@ -73,6 +73,7 @@ namespace BUS
             return (dalDA.SetStatByID(MADA, Status));
         }
         
+        //GETBy
         public string GetStatbyID(string ID) 
         {
             return dalDA.GetStatByID(ID);        
@@ -110,13 +111,30 @@ namespace BUS
             }
             else
                 return (null, dalDA.GetByTEndLimit(TEndLimit));
-        }
+        }       
             
         public DataTable FindDA(DTO_DuAn filter)
         {
             return dalDA.GetDataByFilter(filter);
         }
-       
+
+        public DataTable GetByNganSachMoreLess(long NganSachH, long NganSachL)
+        {
+            return dalDA.GetByNganSachMoreLess(NganSachH, NganSachL);
+        }
+        public DataTable GetByLoaiSK(string MALSK)
+        {
+            return dalDA.GetByLoaiSK(MALSK);
+        }
+        public DataTable GetByOwner(string MAOWNER)
+        {
+            return dalDA.GetByOwner(MAOWNER);
+        }
+        public DataTable GetByStat(string STAT)
+        {
+            return dalDA.GetByStat(STAT);
+        }
+
         //check staff info 
         public static (bool, string) IsValidProjectInfo(DTO_DuAn DA)
         {
