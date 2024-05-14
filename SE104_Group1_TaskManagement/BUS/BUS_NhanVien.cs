@@ -15,87 +15,87 @@ namespace BUS
 {
     public class BUS_NhanVien
     {
-        public static BindingList<DTO_NhanVien> TatCaNhanVien()
+        DAL_NhanVien dalNV = new DAL_NhanVien();
+        public BindingList<DTO_NhanVien> GetAllData()
         {
             BindingList<DTO_NhanVien> result = new BindingList<DTO_NhanVien>();
-            DataTable dsNhanVien = DAL_NhanVien.DanhSachNhanVien();
+            DataTable dsNhanVien = dalNV.GetAllData();
 
             for (int i = 0; i < dsNhanVien.Rows.Count; i++)
             {
-                //DTO_NhanVien temp = new DTO_NhanVien();
-                //temp.MANV = dsNhanVien.Rows[i]["MANV"].ToString();
-                //temp.EMAIL = dsNhanVien.Rows[i]["EMAIL"].ToString();
-                //temp.PHONE = dsNhanVien.Rows[i]["PHONE"].ToString();
-                //temp.LEVEL = int.Parse(dsNhanVien.Rows[i]["LEVEL"].ToString());
-                //temp.NGAYSINH = dsNhanVien.Rows[i]["NGAYSINH"].ToString();
-                //temp.MACM = dsNhanVien.Rows[i]["MACM"].ToString();
-                //temp.GHICHU = dsNhanVien.Rows[i]["GHICHU"].ToString();
-                //result.Add(temp);
+                DTO_NhanVien temp = new DTO_NhanVien();
+                temp.MANV = dsNhanVien.Rows[i]["MANV"].ToString();
+                temp.TENNV = dsNhanVien.Rows[i]["HoTen"].ToString();
+                temp.EMAIL = dsNhanVien.Rows[i]["EMAIL"].ToString();
+                temp.PHONE = dsNhanVien.Rows[i]["SoDT"].ToString();
+                temp.LEVEL = int.Parse(dsNhanVien.Rows[i]["LVL"].ToString());
+                temp.NGAYSINH = dsNhanVien.Rows[i]["NGSINH"].ToString();
+                temp.MACM = dsNhanVien.Rows[i]["MACM"].ToString();
+                temp.GHICHU = dsNhanVien.Rows[i]["GHICHU"].ToString();
+                result.Add(temp);
             }
             return result;
         }
 
-        //Tra ve 0 neu them, xoa, sua nhan vien = 0, tra ve -1 neu them, xoa, sua nhan vien that bai
-        public static (bool, string) ThemNhanVien(DTO_NhanVien nhanVienMoi)
+        public BindingList<DTO_NhanVien> FindNV(DTO_NhanVien filter)
+        {
+            BindingList<DTO_NhanVien> result = new BindingList<DTO_NhanVien>();
+            DataTable dsNhanVien = dalNV.GetDataByFilter(filter);
+
+            for (int i = 0; i < dsNhanVien.Rows.Count; i++)
+            {
+                DTO_NhanVien temp = new DTO_NhanVien();
+                temp.MANV = dsNhanVien.Rows[i]["MANV"].ToString();
+                temp.TENNV = dsNhanVien.Rows[i]["HoTen"].ToString();
+                temp.EMAIL = dsNhanVien.Rows[i]["EMAIL"].ToString();
+                temp.PHONE = dsNhanVien.Rows[i]["SoDT"].ToString();
+                temp.LEVEL = int.Parse(dsNhanVien.Rows[i]["LVL"].ToString());
+                temp.NGAYSINH = dsNhanVien.Rows[i]["NGSINH"].ToString();
+                temp.MACM = dsNhanVien.Rows[i]["MACM"].ToString();
+                temp.GHICHU = dsNhanVien.Rows[i]["GHICHU"].ToString();
+                result.Add(temp);
+            }
+            return result;
+        }
+
+
+//Tra ve 0 neu them, xoa, sua nhan vien = 0, tra ve -1 neu them, xoa, sua nhan vien that bai
+public (bool, string) AddData(DTO_NhanVien nhanVienMoi)
         {
             (bool result, string message) = IsValidStaffInfo(nhanVienMoi);
-            if(result == true)
+            if (result == false)
             {
-                return IsValidStaffInfo(nhanVienMoi);       
+                return IsValidStaffInfo(nhanVienMoi);
             }
             else
             {
-                if (DAL_NhanVien.ThemNhanVien(nhanVienMoi) == 0)
-                {
-                    return (true, "Them thanh cong");
-                }
-                else
-                {
-                    return (false, "Them that bai") ;
-                }
+                return (dalNV.AddData(nhanVienMoi));
             }
         }
 
-        public static (bool, string) XoaNhanVien(DTO_NhanVien nhanVienCanXoa)
+        public (bool, string) DeleteByID(DTO_NhanVien nhanVienCanXoa)
         {
-            (bool result, string message) = IsValidStaffInfo(nhanVienCanXoa);
-            if (result == true)
-            {
-                return IsValidStaffInfo(nhanVienCanXoa);
-            }
-            else
-            {
-                if (DAL_NhanVien.XoaNhanVien(nhanVienCanXoa) == 0)
-                {
-                    return (true, "Them thanh cong");
-                }
-                else
-                {
-                    return (false, "Them that bai");
-                }
-            }
+            return dalNV.DeleteByID(nhanVienCanXoa.MANV);
         }
 
-        public static (bool, string) SuaNhanVien(DTO_NhanVien nhanVienCanSua)
+        public (bool, string) SuaNhanVien(DTO_NhanVien nhanVienCanSua)
         {
             (bool result, string message) = IsValidStaffInfo(nhanVienCanSua);
-            if (result == true)
+            if (result == false)
             {
                 return IsValidStaffInfo(nhanVienCanSua);
             }
             else
             {
-                if (DAL_NhanVien.SuaNhanVien(nhanVienCanSua) == 0)
-                {
-                    return (true, "Them thanh cong");
-                }
-                else
-                {
-                    return (false, "Them that bai");
-                }
+                return (dalNV.SetData(nhanVienCanSua));
             }
         }
+        public DTO_NhanVien GetByID (string ID)
+        {
+            return dalNV.GetByID(ID);
+        }
 
+        
         //Check staff info 
         public static (bool, string) IsValidStaffInfo(DTO_NhanVien nv)
         {
@@ -116,13 +116,13 @@ namespace BUS
         //Check Name
         private static bool IsValidName(string name)
         {
-            if(name == null)
+            if (name == null)
                 return false;
             else
             {
                 foreach (char c in name)
                 {
-                    if (!char.IsLetter(c))
+                    if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
                     {
                         return false;
                     }
@@ -130,12 +130,12 @@ namespace BUS
                 return true;
             }
         }
-        
+
 
         //Check Email
         public static bool IsValidEmail(string email)
         {
-            if(email == null)
+            if (email == null)
                 return false;
             else
             {
@@ -152,7 +152,7 @@ namespace BUS
         //Check phone
         public static bool IsValidPhoneNumber(string soDienThoai)
         {
-            if(soDienThoai == null)
+            if (soDienThoai == null)
                 return false;
             else
             {
@@ -168,7 +168,7 @@ namespace BUS
         //Check birthday
         public static bool IsValidBirthDay(DateTime ngaySinh)
         {
-            if(ngaySinh == null || ngaySinh >= DateTime.Now)
+            if (ngaySinh == null || ngaySinh >= DateTime.Now)
                 return false;
             else
                 return true;

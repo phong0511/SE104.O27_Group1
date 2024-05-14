@@ -8,23 +8,20 @@ namespace DTO
 {
     public class DTO_TaiKhoan
     {
-        private string _matk;
         private string _maqh;
         private string _email;
         private string _pass;
         private string _manv;
 
 
-        public DTO_TaiKhoan(string matk = "", string maqh = "", string email = "", string pass = "", string manv = "")
+        public DTO_TaiKhoan(string maqh = "", string email = "", string pass = "", string manv = "")
         {
-            _matk = matk;
             _maqh = maqh;
             _email = email;
             _pass = pass;
             _manv = manv;
         }
 
-        public string MATK { get { return _matk; } set { _matk = value; } }
         public string MAQH { get { return _maqh; } set { _maqh = value; } }
         public string EMAIL { get { return _email; } set { _email = value; } }
         public string PASS { get { return _pass; } set { _pass = value; } }

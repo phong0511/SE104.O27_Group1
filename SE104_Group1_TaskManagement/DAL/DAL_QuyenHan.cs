@@ -12,6 +12,31 @@ namespace DAL
 {
     public class DAL_QuyenHan : BaseClass
     {
+        public DataTable GetAllData()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                conn.Open();
+                string queryString = "SELECT * FROM QUYENHAN";
+                var command = new SqlCommand(
+                    queryString,
+                    conn);
+                SqlDataAdapter da = new SqlDataAdapter(command);
+                da.Fill(dt);
+                conn.Close();
+                da.Dispose();
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                conn.Close();
+                return dt;
+            }
+        }
         public bool CheckPermission(string maNV, string action)
         {
             try

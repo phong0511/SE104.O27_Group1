@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BUS;
+using DTO;
 
 namespace GUI
 {
@@ -19,18 +21,30 @@ namespace GUI
     /// </summary>
     public partial class LoginWindow : Window
     {
+        BUS_TaiKhoan taikhoanManager = new BUS_TaiKhoan();
+        public static DTO_TaiKhoan crnUser = new DTO_TaiKhoan();
         public LoginWindow()
         {
             InitializeComponent();
         }
 
-        private string _username;
-        private string _password;
-        public string Username { get { return _username; } set {  _username = value; } }
-        public string Password { get { return _password;} set { _password = value; } }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Dang nhap thanh cong");
+            DTO_TaiKhoan user = new DTO_TaiKhoan("", Name.Text, FloatingPasswordBox.Password);
+            crnUser = taikhoanManager.Login(user);
+            if (crnUser.MANV != "")
+            {
+                EmployeesWindow mainWindow = new EmployeesWindow();
+                this.Visibility = Visibility.Collapsed;
+                mainWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("Mat khau hoac email sai, moi nhap lai");
+                EmployeesWindow mainWindow = new EmployeesWindow();
+                this.Visibility = Visibility.Collapsed;
+                mainWindow.Show();
+            }
 
         }
     }
