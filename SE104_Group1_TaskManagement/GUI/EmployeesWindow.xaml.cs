@@ -36,7 +36,9 @@ namespace GUI
             
             InitializeComponent();
             membersDataGrid.LoadingRow += MembersDataGrid_LoadingRow;
-
+            cmText.ItemsSource = cm;
+            cmText.DisplayMemberPath = "Value.TENCM";
+            cmText.SelectedValuePath = "Value.MACM";
             this.WindowState = WindowState.Maximized;
 
             setUser();
@@ -163,7 +165,29 @@ namespace GUI
 
         private void ButtonSearch_Click(object sender, RoutedEventArgs e)
         {
+            DTO_NhanVien filter = new DTO_NhanVien();
+            filter.MANV = searchText.Text != null ? searchText.Text.ToString() : "";
+            filter.TENNV = searchText.Text != null ? searchText.Text.ToString() : "";
+            if (cmCheck.IsChecked == true)
+            {
+                filter.MACM = cmText.SelectedValue!=null ? cmText.SelectedValue.ToString():"";
+            }
+            if (emailCheck.IsChecked == true)
+            {
+                filter.EMAIL = emailText.Text != null ? emailText.Text.ToString() : "";
+            }
+            if (phoneCheck.IsChecked == true)
+            {
+                filter.PHONE = phoneText.Text != null ? phoneText.Text.ToString() : "";
+            }
+            if (lvlCheck.IsChecked == true)
+            {
+                int lvl;
+                filter.LEVEL = int.TryParse(lvlText.Text, out lvl) ? lvl : -1;
+            }
 
+            members=nvManager.FindNV(filter);
+            showMember();
         }
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {

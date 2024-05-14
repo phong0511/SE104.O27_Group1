@@ -37,8 +37,30 @@ namespace BUS
             return result;
         }
 
-        //Tra ve 0 neu them, xoa, sua nhan vien = 0, tra ve -1 neu them, xoa, sua nhan vien that bai
-        public (bool, string) AddData(DTO_NhanVien nhanVienMoi)
+        public BindingList<DTO_NhanVien> FindNV(DTO_NhanVien filter)
+        {
+            BindingList<DTO_NhanVien> result = new BindingList<DTO_NhanVien>();
+            DataTable dsNhanVien = dalNV.GetDataByFilter(filter);
+
+            for (int i = 0; i < dsNhanVien.Rows.Count; i++)
+            {
+                DTO_NhanVien temp = new DTO_NhanVien();
+                temp.MANV = dsNhanVien.Rows[i]["MANV"].ToString();
+                temp.TENNV = dsNhanVien.Rows[i]["HoTen"].ToString();
+                temp.EMAIL = dsNhanVien.Rows[i]["EMAIL"].ToString();
+                temp.PHONE = dsNhanVien.Rows[i]["SoDT"].ToString();
+                temp.LEVEL = int.Parse(dsNhanVien.Rows[i]["LVL"].ToString());
+                temp.NGAYSINH = dsNhanVien.Rows[i]["NGSINH"].ToString();
+                temp.MACM = dsNhanVien.Rows[i]["MACM"].ToString();
+                temp.GHICHU = dsNhanVien.Rows[i]["GHICHU"].ToString();
+                result.Add(temp);
+            }
+            return result;
+        }
+
+
+//Tra ve 0 neu them, xoa, sua nhan vien = 0, tra ve -1 neu them, xoa, sua nhan vien that bai
+public (bool, string) AddData(DTO_NhanVien nhanVienMoi)
         {
             (bool result, string message) = IsValidStaffInfo(nhanVienMoi);
             if (result == false)
@@ -72,10 +94,8 @@ namespace BUS
         {
             return dalNV.GetByID(ID);
         }
-        public DataTable FindNV(DTO_NhanVien filter)
-        {
-            return dalNV.GetDataByFilter(filter);
-        }
+
+        
         //Check staff info 
         public static (bool, string) IsValidStaffInfo(DTO_NhanVien nv)
         {

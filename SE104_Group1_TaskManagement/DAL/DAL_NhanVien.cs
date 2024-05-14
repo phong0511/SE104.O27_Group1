@@ -193,21 +193,17 @@ namespace DAL
                 conn.Open();
                 string queryString = "SELECT MANV, HOTEN, EMAIL, SODT, CONVERT(VARCHAR(10), NGSINH, 104) as NGSINH, LVL, MACM, GHICHU FROM NHANVIEN WHERE IsDeleted <> 1";
 
-                if (filter.MANV != "")
+                if (filter.MANV != "" || filter.TENNV != "")
                 {
-                    queryString += " AND MANV LIKE " + filter.MANV;
-                }
-                if (filter.TENNV != "")
-                {
-                    queryString += " AND HOTEN LIKE " + filter.TENNV;
+                    queryString += " AND MANV LIKE '%" + filter.MANV + "%' OR HOTEN LIKE '%" + filter.TENNV + "%'";
                 }
                 if (filter.EMAIL != "")
                 {
-                    queryString += " AND EMAIL LIKE " + filter.EMAIL;
+                    queryString += " AND EMAIL LIKE '%" + filter.EMAIL + "%'";
                 }
                 if (filter.PHONE != "")
                 {
-                    queryString += " AND SODT LIKE " + filter.PHONE;
+                    queryString += " AND SODT LIKE '%" + filter.PHONE +"%'";
                 }
                 if (filter.LEVEL != -1)
                 {
@@ -215,7 +211,7 @@ namespace DAL
                 }
                 if (filter.MACM != "")
                 {
-                    queryString += " AND MACM LIKE " + filter.MACM;
+                    queryString += " AND MACM=" + filter.MACM;
                 }
                 var command = new SqlCommand(
                     queryString,
