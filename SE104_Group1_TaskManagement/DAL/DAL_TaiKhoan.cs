@@ -17,36 +17,45 @@ namespace DAL
         public DTO_TaiKhoan CheckLogicDTO(DTO_TaiKhoan taikhoan)
         {
             DTO_TaiKhoan user = new DTO_TaiKhoan();
-            // Hàm connect tới CSDL 
-            //SqlConnection conn = BaseClass;
-            conn.Open();
-            SqlCommand command = new SqlCommand("proc_logic", conn);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@user", taikhoan.EMAIL);
-            command.Parameters.AddWithValue("@pass", taikhoan.PASS);
-            // Kiểm tra quyền các bạn thêm 1 cái parameter...
-            command.Connection = conn;
-            SqlDataReader reader = command.ExecuteReader();
-            if (reader.HasRows)
+            try
             {
-                while(reader.Read())
-                {
-                    user.MAQH = reader.GetString(0);
-                    user.EMAIL = reader.GetString(1);
-                    user.PASS = reader.GetString(2);
-                    user.MANV = reader.GetString(3);
-                }
-                reader.Close();
-                conn.Close();
                 
-            }
-            else
-            {
-                reader.Close();
-                conn.Close();
-            }
+                // Hàm connect tới CSDL 
+                //SqlConnection conn = BaseClass;
+                conn.Open();
+                SqlCommand command = new SqlCommand("proc_logic", conn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@user", taikhoan.EMAIL);
+                command.Parameters.AddWithValue("@pass", taikhoan.PASS);
+                // Kiểm tra quyền các bạn thêm 1 cái parameter...
+                command.Connection = conn;
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        user.MAQH = reader.GetString(0);
+                        user.EMAIL = reader.GetString(1);
+                        user.PASS = reader.GetString(2);
+                        user.MANV = reader.GetString(3);
+                    }
+                    reader.Close();
+                    conn.Close();
 
-            return user;
+                }
+                else
+                {
+                    reader.Close();
+                    conn.Close();
+                }
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                return user;
+            }
         }
 
         public string TaoMoiTaiKhoan(DTO_TaiKhoan taiKhoan)
