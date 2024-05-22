@@ -21,7 +21,7 @@ namespace GUI
     /// </summary>
     public partial class LoginWindow : Window
     {
-        BUS_TaiKhoan taikhoanManager = new BUS_TaiKhoan();
+        public static BUS_TaiKhoan taikhoanManager = new BUS_TaiKhoan();
         public static DTO_TaiKhoan crnUser = new DTO_TaiKhoan();
         public LoginWindow()
         {
@@ -31,8 +31,9 @@ namespace GUI
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             DTO_TaiKhoan user = new DTO_TaiKhoan("", Name.Text, FloatingPasswordBox.Password);
-            crnUser = taikhoanManager.Login(user);
-            if (crnUser.MANV != "")
+            string str = "";
+            (crnUser,str) = taikhoanManager.Login(user);
+            if (crnUser != null)
             {
                 EmployeesWindow mainWindow = new EmployeesWindow();
                 this.Visibility = Visibility.Collapsed;
@@ -40,10 +41,7 @@ namespace GUI
             }
             else
             {
-                MessageBox.Show("Mat khau hoac email sai, moi nhap lai");
-                EmployeesWindow mainWindow = new EmployeesWindow();
-                this.Visibility = Visibility.Collapsed;
-                mainWindow.Show();
+                MessageBox.Show("Mat khau hoac email sai, moi nhap lai");           
             }
 
         }
