@@ -24,9 +24,10 @@
                 Background="#FF5C99D6"
                 Foreground="{DynamicResource PrimaryHueLightForegroundBrush}">
                 <TextBlock
+                    x:Name="wTitle"
                     FontSize="20"
                     FontWeight="ExtraBold"
-                    Text="THÊM/SỬA DỰ ÁN"
+                    Text="THÊM DỰ ÁN"
                     TextAlignment="Center"
                     Visibility="Visible"/>
             </materialDesign:Card>
@@ -116,6 +117,7 @@
 
             <Grid Grid.Column="1" Grid.Row="0" Margin="5">
                 <TextBox
+                    x:Name="madaText"
                     Margin="10 0 0 10"
                     VerticalAlignment="Center"
                     materialDesign:HintAssist.Hint="Mã dự án"
@@ -126,6 +128,7 @@
 
             <Grid Grid.Column="1" Grid.Row="1" Margin="5">
                 <TextBox
+                    x:Name="tendaText"
                     Margin="10 0 0 10"
                     VerticalAlignment="Center"
                     materialDesign:HintAssist.Hint="Tên dự án"
@@ -135,29 +138,32 @@
             </Grid>
 
             <Grid Grid.Column="1" Grid.Row="2" Margin="5">
-                <DatePicker
+                <TextBox
+                    x:Name="TStartText"
                     Margin="10 0 0 10"
                     HorizontalAlignment="Left"
                     Width="200"
                     FontSize="15"
                     materialDesign:HintAssist.Hint="Pick Date"
                     materialDesign:TextFieldAssist.HasClearButton="True"
-                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
             </Grid>
 
             <Grid Grid.Column="1" Grid.Row="3" Margin="5">
-                <DatePicker
+                <TextBox
+                    x:Name="TEndText"
                     Margin="10 0 0 10"
                     HorizontalAlignment="Left"
                     Width="200"
                     FontSize="15"
                     materialDesign:HintAssist.Hint="Pick Date"
                     materialDesign:TextFieldAssist.HasClearButton="True"
-                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
             </Grid>
 
             <Grid Grid.Column="1" Grid.Row="4" Margin="5">
-                <TextBox                    
+                <TextBox       
+                    x:Name="ngansachText"
                     Margin="10 0 0 10"
                     VerticalAlignment="Center"
                     materialDesign:HintAssist.Hint="Ngân sách"
@@ -167,39 +173,18 @@
             </Grid>
 
             <Grid Grid.Column="1" Grid.Row="5" Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <Grid Grid.Column="0">
-                    <CheckBox IsChecked="False" 
-                             Width="70" 
-                             Content="Finish" 
-                             FontSize="15"
-                             HorizontalContentAlignment="Right"/>
-                </Grid>
-
-                <Grid Grid.Column="1">
-                    <CheckBox IsChecked="False" 
-                             Width="70"                   
-                             Content="Delay" 
-                             FontSize="15"
-                             HorizontalContentAlignment="Right"/>
-                </Grid>
-
-                <Grid Grid.Column="2">
-                    <CheckBox IsChecked="False" 
-                              Width="70"                   
-                              Content="Cancel" 
-                              FontSize="15"
-                              HorizontalContentAlignment="Right"/>
-                </Grid>
+                <ComboBox x:Name="statText">
+                    <ComboBoxItem Content="Completed"/>
+                    <ComboBoxItem Content="Delayed"/>
+                    <ComboBoxItem Content="Canceled"/>
+                    <ComboBoxItem Content="Pending"/>
+                </ComboBox>
+               
             </Grid>
 
             <Grid Grid.Column="1" Grid.Row="6" Margin="5">
                 <TextBox
+                    x:Name="malskText"
                     Margin="10 0 0 10"
                     VerticalAlignment="Center"
                     materialDesign:HintAssist.Hint="Mã loại sự kiện"
@@ -210,6 +195,7 @@
 
             <Grid Grid.Column="1" Grid.Row="7" Margin="5">
                 <TextBox
+                    x:Name="manqlText"
                     Margin="10 0 0 10"
                     VerticalAlignment="Center"
                     materialDesign:HintAssist.Hint="Mã người quản lý"
@@ -221,11 +207,11 @@
         </Grid>
 
         <Grid Grid.Row="2">
-            <Button x:Name="ButtonAddNew" HorizontalAlignment="Right" Width="100" Margin="10">
+            <Button x:Name="ButtonAddNew" HorizontalAlignment="Right" Width="100" Margin="10" Click="ButtonAddNew_Click">
                 <TextBlock Text="THÊM" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"/>
             </Button>
 
-            <Button x:Name="ButtonUpdate" HorizontalAlignment="Right" Width="100" Margin="10" Visibility="Collapsed">
+            <Button x:Name="ButtonUpdate" HorizontalAlignment="Right" Width="100" Margin="10" Visibility="Collapsed" Click="ButtonUpdate_Click">
                 <TextBlock Text="SỬA" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"/>
             </Button>
         </Grid>

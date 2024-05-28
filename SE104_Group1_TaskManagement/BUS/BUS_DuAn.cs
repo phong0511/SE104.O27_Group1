@@ -26,14 +26,14 @@ namespace BUS
             for (int i = 0; i < dsDuAn.Rows.Count; i++)
             {
                 DTO_DuAn temp = new DTO_DuAn();
-                temp.MADA = dsDuAn.Rows[i]["MADA"].ToString();
-                temp.MALSK = dsDuAn.Rows[i]["MALSK"].ToString();
-                temp.MAOWNER = dsDuAn.Rows[i]["MAOWNER"].ToString();
-                temp.TENDA = dsDuAn.Rows[i]["TENDA"].ToString();
-                temp.NGANSACH = long.Parse(dsDuAn.Rows[i]["NGANSACH"].ToString());
-                temp.TSTART = dsDuAn.Rows[i]["TSTART"].ToString();
-                temp.TEND = dsDuAn.Rows[i]["TEND"].ToString();
-                temp.STAT = dsDuAn.Rows[i]["STAT"].ToString();
+                temp.MADA = dsDuAn.Rows[i]["MaDA"].ToString();
+                temp.MALSK = dsDuAn.Rows[i]["MaLSK"].ToString();
+                temp.MAOWNER = dsDuAn.Rows[i]["MaOwner"].ToString();
+                temp.TENDA = dsDuAn.Rows[i]["TenDA"].ToString();
+                temp.NGANSACH = long.Parse(Convert.ToInt64(dsDuAn.Rows[i]["NGANSACH"]).ToString());
+                temp.TSTART = dsDuAn.Rows[i]["TStart"].ToString();
+                temp.TEND = dsDuAn.Rows[i]["TEnd"].ToString();
+                temp.STAT = dsDuAn.Rows[i]["TINHTRANG"].ToString();
                 result.Add(temp);
             }
             return result;
@@ -52,10 +52,12 @@ namespace BUS
                 return (dalDA.AddData(DuAnMoi));
             }
         }
+
         // DELETE
-        public (bool, string) DeleteByID(DTO_DuAn nhanVienCanXoa)
+        public (bool, string) DeleteByID(DTO_DuAn DuAnCanXoa)
         {
-            return dalDA.;
+            return (false, null);
+            //dalDA.DeleteByID(DuAnCanXoa);
         }
 
         //EDIT
@@ -117,10 +119,27 @@ namespace BUS
             else
                 return (null, dalDA.GetByTEndLimit(TEndLimit));
         }       
-            
-        public DataTable FindDA(DTO_DuAn filter)
+        
+        //FindDA
+        public BindingList<DTO_DuAn> FindDA(DTO_DuAn filter, long NganSachL = -1, long NganSachH = -1)
         {
-            return dalDA.GetDataByFilter(filter);
+            BindingList<DTO_DuAn> result = new BindingList<DTO_DuAn>();
+            DataTable dsDuAn = dalDA.GetDataByFilter(filter, NganSachL, NganSachH);
+
+            for (int i = 0; i < dsDuAn.Rows.Count; i++)
+            {
+                DTO_DuAn temp = new DTO_DuAn();
+                temp.MADA = dsDuAn.Rows[i]["MaDA"].ToString();
+                temp.MALSK = dsDuAn.Rows[i]["MaLSK"].ToString();
+                temp.MAOWNER = dsDuAn.Rows[i]["MaOwner"].ToString();
+                temp.TENDA = dsDuAn.Rows[i]["TenDA"].ToString();
+                temp.TSTART = dsDuAn.Rows[i]["TStart"].ToString();
+                temp.TEND = dsDuAn.Rows[i]["TEnd"].ToString();
+                temp.NGANSACH = long.Parse(Convert.ToInt64(dsDuAn.Rows[i]["NGANSACH"]).ToString());
+                temp.STAT = dsDuAn.Rows[i]["TINHTRANG"].ToString();
+                result.Add(temp);
+            }
+            return result;
         }
 
         public DataTable GetByNganSachMoreLess(long NganSachH, long NganSachL)
@@ -176,7 +195,7 @@ namespace BUS
         //check start date
         public static bool IsValidTSTART(DateTime NgayBatDau)
         {
-            if (NgayBatDau == null || NgayBatDau >= DateTime.Now)
+            if (NgayBatDau == null)
                 return false;
             else
                 return true;
@@ -185,7 +204,8 @@ namespace BUS
         //check end date 
         public static bool IsValidTEND(DateTime NgayKetThuc)
         {
-            if (NgayKetThuc == null || NgayKetThuc >= DateTime.Now)
+            DateTime NgayBatDau;
+            if (NgayKetThuc == null)
                 return false;
             else
                 return true;

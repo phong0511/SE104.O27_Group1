@@ -18,6 +18,7 @@ namespace BUS
     public class BUS_CongViec
     {
         DAL_CongViec dalCV = new DAL_CongViec();
+        DAL_DuAn dalDA = new DAL_DuAn();
         public BindingList<DTO_CongViec> GetAllData()
         {
             BindingList<DTO_CongViec> result = new BindingList<DTO_CongViec>();
@@ -71,7 +72,7 @@ namespace BUS
         }
 
         //SET STATUS
-        
+
 
 
         //GETBy
@@ -81,24 +82,16 @@ namespace BUS
         }
         public (string, DataTable) GetByName(string name)
         {
-            bool result = (IsValidNameProject(name));
+            bool result = (IsValidNameTask(name));
             if (result == false)
             {
-                return ("Ten du an khong hop le", null);
+                return ("Ten cong viec khong hop le", null);
             }
             else
                 return (null, dalCV.GetByName(name));
         }
-        public (string, DataTable) GetByTStartLimit(DateTime TStartLimit)
-        {
-            bool result = (IsValidTSTART(TStartLimit));
-            if (result == false)
-            {
-                return ("Ten du an khong hop le", null);
-            }
-            else
-                return (null, dalDA.GetByTStartLimit(TStartLimit));
-        }
+
+
         public (string, DataTable) GetByTENDLimit(DateTime TEndLimit)
         {
             bool result = (IsValidTEND(TEndLimit));
@@ -110,35 +103,38 @@ namespace BUS
                 return (null, dalDA.GetByTEndLimit(TEndLimit));
         }
 
-        public DataTable FindDA(DTO_CongViec filter)
-        {
-            return dalDA.GetDataByFilter(filter);
-        }
+        //public DataTable FindCV(DTO_CongViec filter)
+        //{
+        //    return dalCV.GetDataByFilter(filter);
+        //}
 
         public DataTable GetByNganSachMoreLess(long NganSachH, long NganSachL)
         {
             return dalDA.GetByNganSachMoreLess(NganSachH, NganSachL);
         }
+
         public DataTable GetByLoaiSK(string MALSK)
         {
             return dalDA.GetByLoaiSK(MALSK);
         }
+
         public DataTable GetByOwner(string MAOWNER)
         {
             return dalDA.GetByOwner(MAOWNER);
         }
+
         public DataTable GetByStat(string STAT)
         {
             return dalDA.GetByStat(STAT);
         }
 
         //check staff info 
-        public static (bool, string) IsValidProjectInfo(DTO_CongViec DA)
+        public static (bool, string) IsValidProjectInfo(DTO_CongViec CV)
         {
-            if (DA == null)
+            if (CV == null)
                 return (false, "Du an khong ton tai");
-            if (!IsValidNameProject(DA.TENDA))
-                return (false, "Ten du an khong hop le");
+            if (!IsValidNameTask(CV.TENCV))
+                return (false, "Ten cong viec khong hop le");
             if (!IsValidTSTART(DateTime.Now))
                 return (false, "Ngay bat dau khong hop le");
             if (!IsValidTEND(DateTime.Now))
@@ -146,14 +142,14 @@ namespace BUS
             return (true, "Thong tin hop le");
         }
 
-        //check Project's name
-        private static bool IsValidNameProject(string name)
+        //check Project's ID
+        private static bool IsValidNameTask(string tencv)
         {
-            if (name == null)
+            if (tencv == null)
                 return false;
             else
             {
-                foreach (char c in name)
+                foreach (char c in tencv)
                 {
                     if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
                     {
