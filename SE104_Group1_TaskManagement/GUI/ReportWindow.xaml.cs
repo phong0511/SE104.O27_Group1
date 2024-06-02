@@ -1,7 +1,7 @@
 ﻿using BUS;
 using DAL;
 using DTO;
-using MailKit.Search;
+//using MailKit.Search;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -43,6 +43,7 @@ namespace GUI
 
             setUser();
             projects = daManager.GetAllData();
+            
             showProjects();
         }
 
@@ -78,6 +79,9 @@ namespace GUI
         void showProjects()
         {
             projectsDataGrid.ItemsSource = projects;
+            TotalEvents.Text = projects.Count.ToString();
+            TotalMoney.Text = daManager.CalTongNganSach(projects).ToString() + " VND";
+            LeftMoney.Text = (daManager.CalTongNganSach(projects) - daManager.CalTongDaDung(projects)).ToString() + " VND";
         }
         private void Add_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -180,11 +184,6 @@ namespace GUI
         }
 
         private void projectsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }

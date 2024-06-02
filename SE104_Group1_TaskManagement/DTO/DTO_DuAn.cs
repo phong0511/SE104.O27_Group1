@@ -16,8 +16,9 @@ namespace DTO
         string _tstart;
         string _tend;
         string _stat;
+        long _dadung;
 
-        public DTO_DuAn(string mada = "", string malsk = "", string maowner = "", string tenda = "", long ngansach = -1, string tstart = "", string tend = "", string stat = "")
+        public DTO_DuAn(string mada = "", string malsk = "", string maowner = "", string tenda = "", long ngansach = -1, string tstart = "", string tend = "", string stat = "", long dadung = 0)
         {
             _mada = mada;
             _malsk = malsk;
@@ -27,6 +28,7 @@ namespace DTO
             _tstart = tstart;
             _tend = tend;
             _stat = stat;
+            _dadung = dadung;
         }
 
         public string MADA
@@ -54,5 +56,8 @@ namespace DTO
 
         public string STAT
         { get { return _stat; } set { _stat = value; } }
+
+        public long DADUNG
+        { get { return _dadung; } set { _dadung = value; } }
     }
 }

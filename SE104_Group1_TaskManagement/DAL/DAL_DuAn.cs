@@ -20,7 +20,7 @@ namespace DAL
                 string mada = getCrnID();
 
                 conn.Open();
-                string queryString = "INSERT INTO DU AN VALUES (@mada, @malsk, @tenda, @ngansach, CONVERT(smalldatetime,@tstart, 104),  CONVERT(smalldatetime,@tend, 104), @maowner, @stat)";
+                string queryString = "INSERT INTO DU AN VALUES (@mada, @malsk, @tenda, @ngansach, CONVERT(smalldatetime,@tstart, 104),  CONVERT(smalldatetime,@tend, 104), @maowner, @stat, @dadung)";
                 var command = new SqlCommand(
                     queryString,
                     conn);
@@ -34,7 +34,7 @@ namespace DAL
                 command.Parameters.AddWithValue("@tend", duAn.TEND);
                 command.Parameters.AddWithValue("@maowner", duAn.MAOWNER);
                 command.Parameters.AddWithValue("@stat", duAn.STAT);
-
+                command.Parameters.AddWithValue("@dadung", 0);
                 if (command.ExecuteNonQuery() > 0)
                 {
                     conn.Close();
@@ -396,7 +396,7 @@ namespace DAL
             {
                 
                 conn.Open();
-                string queryString = "SELECT MADA, TENDA, MALSK, NGANSACH,  CONVERT(VARCHAR(10),TSTART,104),  CONVERT(VARCHAR(10),TEND,104), MAOWNER, TINHTRANG FROM DUAN WHERE MADA IS NOT NULL";
+                string queryString = "SELECT MADA, TENDA, MALSK, NGANSACH, DADUNG, CONVERT(VARCHAR(10),TSTART,104) as TSTART,  CONVERT(VARCHAR(10),TEND,104) as TEND, MAOWNER, TINHTRANG FROM DUAN WHERE MADA IS NOT NULL\r\n";
 
                 var command = new SqlCommand(
                     queryString,
@@ -426,7 +426,7 @@ namespace DAL
             {
 
                 conn.Open();
-                string queryString = "SELECT MADA, TENDA, MALSK, NGANSACH,  CONVERT(VARCHAR(10),TSTART,104),  CONVERT(VARCHAR(10),TEND,104), MAOWNER, TINHTRANG FROM DUAN WHERE MADA IS NOT NULL";
+                string queryString = "SELECT MADA, TENDA, MALSK, NGANSACH, DADUNG, CONVERT(VARCHAR(10),TSTART,104),  CONVERT(VARCHAR(10),TEND,104), MAOWNER, TINHTRANG FROM DUAN WHERE MADA IS NOT NULL";
 
                 if (filter.MADA!="")
                 {

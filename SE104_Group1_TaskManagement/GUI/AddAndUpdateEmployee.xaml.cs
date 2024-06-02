@@ -79,7 +79,7 @@ namespace GUI
             if (res.Item1 == true)
             {
                 DTO_TaiKhoan tk = new DTO_TaiKhoan(qhText.SelectedValue.ToString(), newNV.EMAIL, newNV.PHONE, res.Item2);
-                tkManager.Register(tk);
+                tkManager.TaoMoiTaiKhoan(tk);
                 MessageBox.Show("Thêm nhân viên thành công!");
                 this.DialogResult = true;
                 this.Close();

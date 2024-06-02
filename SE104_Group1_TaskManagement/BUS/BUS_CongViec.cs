@@ -97,7 +97,7 @@ namespace BUS
                 return ("Ten du an khong hop le", null);
             }
             else
-                return (null, dalDA.GetByTStartLimit(TStartLimit));
+                return (null, dalCV.GetByTStartLimit(TStartLimit.ToString()));
         }
         public (string, DataTable) GetByTENDLimit(DateTime TEndLimit)
         {
@@ -107,37 +107,17 @@ namespace BUS
                 return ("Ten du an khong hop le", null);
             }
             else
-                return (null, dalDA.GetByTEndLimit(TEndLimit));
+                return (null, dalCV.GetByTEndLimit(TEndLimit.ToString()));
         }
 
-        public DataTable FindDA(DTO_CongViec filter)
-        {
-            return dalDA.GetDataByFilter(filter);
-        }
 
-        public DataTable GetByNganSachMoreLess(long NganSachH, long NganSachL)
-        {
-            return dalDA.GetByNganSachMoreLess(NganSachH, NganSachL);
-        }
-        public DataTable GetByLoaiSK(string MALSK)
-        {
-            return dalDA.GetByLoaiSK(MALSK);
-        }
-        public DataTable GetByOwner(string MAOWNER)
-        {
-            return dalDA.GetByOwner(MAOWNER);
-        }
-        public DataTable GetByStat(string STAT)
-        {
-            return dalDA.GetByStat(STAT);
-        }
 
         //check staff info 
         public static (bool, string) IsValidProjectInfo(DTO_CongViec DA)
         {
             if (DA == null)
                 return (false, "Du an khong ton tai");
-            if (!IsValidNameProject(DA.TENDA))
+            if (!IsValidNameProject(DA.MADA))
                 return (false, "Ten du an khong hop le");
             if (!IsValidTSTART(DateTime.Now))
                 return (false, "Ngay bat dau khong hop le");
@@ -182,5 +162,6 @@ namespace BUS
             else
                 return true;
         }
+
     }
 }

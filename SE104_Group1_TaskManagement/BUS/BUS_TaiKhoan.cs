@@ -2,9 +2,9 @@
 using DTO;
 using System;
 using System.Text.RegularExpressions;
-using MailKit.Net.Smtp;
-using MailKit.Security;
-using MimeKit;
+//using MailKit.Net.Smtp;
+//using MailKit.Security;
+//using MimeKit;
 
 namespace BUS
 {
@@ -51,7 +51,7 @@ namespace BUS
                 return dalTK.TaoMoiTaiKhoan(tk);
             }
         }
-
+        /*
         public string SendCode(string email)
         {
           
@@ -95,7 +95,7 @@ namespace BUS
                     return ("Có lỗi xảy ra khi gửi email: " + ex.Message);
                 }
             }
-        }
+        }*/
         //Cac ham  kiem tra
         //Kiem tra ten dang nhap
         public bool IsValidEmail(string email)

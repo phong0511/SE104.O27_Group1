@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
-        Title="ReportWindow" Height="450" Width="800">
+        Title="ReportWindow" Height="450" Width="800" FontWeight="Bold">
     <Window.Resources>
 
         <Style TargetType="ToolTip" x:Key="tt_style">
@@ -137,42 +137,132 @@
                 </ListView>
             </StackPanel>
         </Grid>
-        <Grid x:Name="WorkSpace" Margin="125,79,47,15">
+        <Grid x:Name="WorkSpace" Margin="90,65,0,0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="130"></RowDefinition>
+                <RowDefinition MaxHeight="130px"></RowDefinition>
 
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
 
             </Grid.RowDefinitions>
-           
-            <Grid HorizontalAlignment="Right" Width="628"/>
-            <TextBox HorizontalAlignment="Left" Margin="34,25,0,0" TextWrapping="Wrap" Text="Từ ngày:" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
-            <TextBox HorizontalAlignment="Left" Margin="34,55,0,0" TextWrapping="Wrap" Text="Đến ngày:" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
-            <TextBox HorizontalAlignment="Left" Margin="314,85,0,20" TextWrapping="Wrap" Text="Còn lại:" Width="120" TextChanged="TextBox_TextChanged"/>
-            <TextBox HorizontalAlignment="Left" Margin="314,55,0,0" TextWrapping="Wrap" Text="Chi tiêu/Ngân sách:" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
-            <TextBox HorizontalAlignment="Left" Margin="314,25,0,0" TextWrapping="Wrap" Text="Tổng số sự kiện:" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
-        
+
+            <Grid Grid.Row="0" HorizontalAlignment="Right" MinWidth="700">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*"/>
+                    <ColumnDefinition Width="0.4*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*"/>
+                            <ColumnDefinition Width="0.4*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Label Content="Từ ngày:" HorizontalAlignment="Left" Height="26" VerticalAlignment="Center" FontWeight="Bold" FontSize="14"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <DatePicker Name="StartDayPicker" Margin="0,0,20,0">
+                                
+                            </DatePicker>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*"/>
+                            <ColumnDefinition Width="0.4*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Label Content="Đến ngày:" HorizontalAlignment="Left" Height="26" VerticalAlignment="Center" FontWeight="Bold" FontSize="14"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <DatePicker Name="EndDayPicker" Margin="0,0,20,0">
+
+                            </DatePicker>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Button
+                        HorizontalAlignment="Right"
+                        Width="100"
+                        Height="30"
+                            Margin="0,0,20,0"
+                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        ToolTip="Load"
+                            Content="Tìm kiếm">
+                            
+                        </Button>
+
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*"/>
+                            <ColumnDefinition Width="0.4*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Label Content="Tổng số sự kiện:" HorizontalAlignment="Left" Height="26" VerticalAlignment="Center" FontWeight="Bold" FontSize="14"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <TextBlock x:Name="TotalEvents" HorizontalAlignment="Left" Height="26" VerticalAlignment="Center" FontSize="14"/>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*"/>
+                            <ColumnDefinition Width="0.4*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Label Content="Ngân sách:" HorizontalAlignment="Left" Height="26" VerticalAlignment="Center" FontWeight="Bold" FontSize="14"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <TextBlock x:Name="TotalMoney" HorizontalAlignment="Left" Height="26" VerticalAlignment="Center" FontSize="14"/>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*"/>
+                            <ColumnDefinition Width="0.4*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Label Content="Còn lại:" HorizontalAlignment="Left" Height="26" VerticalAlignment="Center" FontWeight="Bold" FontSize="14"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <TextBlock x:Name="LeftMoney" HorizontalAlignment="Left" Height="26" VerticalAlignment="Center" FontSize="14"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                
+                
+                
+                
+            </Grid>
+
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
-                    <ColumnDefinition MaxWidth="50"/>
+                    
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="273*"/>
-                        <ColumnDefinition Width="305*"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <!--Members Data Grid-->
-                    <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="projectsDataGrid" Style="{DynamicResource DataGridStyle1}" SelectionChanged="projectsDataGrid_SelectionChanged" Grid.ColumnSpan="2" Height="190" VerticalAlignment="Center">
+                    <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="projectsDataGrid" Style="{DynamicResource DataGridStyle1}" SelectionChanged="projectsDataGrid_SelectionChanged" Grid.ColumnSpan="2" VerticalAlignment="Center">
                         <DataGrid.Columns>
-                            <DataGridCheckBoxColumn Header="C" CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
-                                <DataGridCheckBoxColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <CheckBox Style="{StaticResource CheckBoxStyle1}" Click="Sel_CheckBox_DataContextChanged"/>
-                                    </DataTemplate>
-                                </DataGridCheckBoxColumn.HeaderTemplate>
-                            </DataGridCheckBoxColumn>
                             <DataGridTextColumn Header="Mã dự án" Binding="{Binding MADA}" IsReadOnly="True" Width="*"/>
                             <DataGridTemplateColumn Header="Tên dự án" IsReadOnly="True" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -184,22 +274,10 @@
                             <DataGridTextColumn Header="Ngày bắt đầu" Binding="{Binding TSTART}" IsReadOnly="True" Width="*"/>
                             <DataGridTextColumn Header="Ngày kết thúc" Binding="{Binding TEND}" IsReadOnly="True" Width="*"/>
                             <DataGridTextColumn Header="Ngân sách" Binding="{Binding NGANSACH}" IsReadOnly="True" Width="*"/>
+                            <DataGridTextColumn Header="Đã dùng" Binding="{Binding DADUNG}" IsReadOnly="True" Width="*"/>
                             <DataGridTextColumn Header="Tình trạng" Binding="{Binding STAT}" IsReadOnly="True" Width="*"/>
                             <DataGridTextColumn Header="Ghi chú" Binding="{Binding GHICHU}" IsReadOnly="True" Width="*"/>
-                            <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="auto">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource gridEditButton}">
-                                                <materialDesign:PackIcon Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
-                                            </Button>
-                                            <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}">
-                                                <materialDesign:PackIcon Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
-                                            </Button>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
+                            
                         </DataGrid.Columns>
                     </DataGrid>
 

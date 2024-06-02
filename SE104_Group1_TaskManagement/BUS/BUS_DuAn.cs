@@ -26,19 +26,20 @@ namespace BUS
             for (int i = 0; i < dsDuAn.Rows.Count; i++)
             {
                 DTO_DuAn temp = new DTO_DuAn();
-                temp.MADA = dsDuAn.Rows[i]["MADA"].ToString();
-                temp.MALSK = dsDuAn.Rows[i]["MALSK"].ToString();
-                temp.MAOWNER = dsDuAn.Rows[i]["MAOWNER"].ToString();
-                temp.TENDA = dsDuAn.Rows[i]["TENDA"].ToString();
-                temp.NGANSACH = long.Parse(dsDuAn.Rows[i]["NGANSACH"].ToString());
-                temp.TSTART = dsDuAn.Rows[i]["TSTART"].ToString();
-                temp.TEND = dsDuAn.Rows[i]["TEND"].ToString();
-                temp.STAT = dsDuAn.Rows[i]["STAT"].ToString();
+                temp.MADA = dsDuAn.Rows[i]["MaDA"].ToString();
+                temp.MALSK = dsDuAn.Rows[i]["MaLSK"].ToString();
+                temp.MAOWNER = dsDuAn.Rows[i]["MaOwner"].ToString();
+                temp.TENDA = dsDuAn.Rows[i]["TenDA"].ToString();
+                temp.NGANSACH = long.Parse(Convert.ToInt64(dsDuAn.Rows[i]["NGANSACH"]).ToString());
+                temp.TSTART = dsDuAn.Rows[i]["TStart"].ToString();
+                temp.TEND = dsDuAn.Rows[i]["TEnd"].ToString();
+                temp.STAT = dsDuAn.Rows[i]["TINHTRANG"].ToString();
+                temp.DADUNG = long.Parse(Convert.ToInt64(dsDuAn.Rows[i]["DADUNG"]).ToString());
                 result.Add(temp);
             }
             return result;
         }
-
+        
         //ADD
         public (bool, string) AddData(DTO_DuAn DuAnMoi)
         {
@@ -48,14 +49,9 @@ namespace BUS
                 return IsValidProjectInfo(DuAnMoi);
             }
             else
-            {   
+            {
                 return (dalDA.AddData(DuAnMoi));
             }
-        }
-        // DELETE
-        public (bool, string) DeleteByID(DTO_DuAn nhanVienCanXoa)
-        {
-            return dalDA.;
         }
 
         //EDIT
@@ -73,15 +69,15 @@ namespace BUS
         }
 
         //SET STATUS
-        public (bool,string) SetStatus(string MADA, string Status)
+        public (bool, string) SetStatus(string MADA, string Status)
         {
             return (dalDA.SetStatByID(MADA, Status));
         }
-        
+
         //GETBy
-        public string GetStatbyID(string ID) 
+        public string GetStatbyID(string ID)
         {
-            return dalDA.GetStatByID(ID);        
+            return dalDA.GetStatByID(ID);
         }
         public DTO_DuAn GetByID(string ID)
         {
@@ -89,15 +85,15 @@ namespace BUS
         }
         public (string, DataTable) GetByName(string name)
         {
-            bool result = (IsValidNameProject(name)); 
+            bool result = (IsValidNameProject(name));
             if (result == false)
             {
                 return ("Ten du an khong hop le", null);
-            }    
-            else 
-                return (null ,dalDA.GetByName(name));
+            }
+            else
+                return (null, dalDA.GetByName(name));
         }
-        public (string,DataTable) GetByTStartLimit(DateTime TStartLimit)
+        public (string, DataTable) GetByTStartLimit(DateTime TStartLimit)
         {
             bool result = (IsValidTSTART(TStartLimit));
             if (result == false)
@@ -105,7 +101,7 @@ namespace BUS
                 return ("Ten du an khong hop le", null);
             }
             else
-                return (null , dalDA.GetByTStartLimit(TStartLimit));
+                return (null, dalDA.GetByTStartLimit(TStartLimit));
         }
         public (string, DataTable) GetByTENDLimit(DateTime TEndLimit)
         {
@@ -116,11 +112,28 @@ namespace BUS
             }
             else
                 return (null, dalDA.GetByTEndLimit(TEndLimit));
-        }       
-            
-        public DataTable FindDA(DTO_DuAn filter)
+        }
+
+        //FindDA
+        public BindingList<DTO_DuAn> FindDA(DTO_DuAn filter, long NganSachL, long NganSachH)
         {
-            return dalDA.GetDataByFilter(filter);
+            BindingList<DTO_DuAn> result = new BindingList<DTO_DuAn>();
+            DataTable dsDuAn = dalDA.GetDataByFilter(filter, NganSachL, NganSachH);
+
+            for (int i = 0; i < dsDuAn.Rows.Count; i++)
+            {
+                DTO_DuAn temp = new DTO_DuAn();
+                temp.MADA = dsDuAn.Rows[i]["MaDA"].ToString();
+                temp.MALSK = dsDuAn.Rows[i]["MaLSK"].ToString();
+                temp.MAOWNER = dsDuAn.Rows[i]["MaOwner"].ToString();
+                temp.TENDA = dsDuAn.Rows[i]["TenDA"].ToString();
+                temp.TSTART = dsDuAn.Rows[i]["TStart"].ToString();
+                temp.TEND = dsDuAn.Rows[i]["TEnd"].ToString();
+                temp.NGANSACH = long.Parse(Convert.ToInt64(dsDuAn.Rows[i]["NGANSACH"]).ToString());
+                temp.STAT = dsDuAn.Rows[i]["TINHTRANG"].ToString();
+                result.Add(temp);
+            }
+            return result;
         }
 
         public DataTable GetByNganSachMoreLess(long NganSachH, long NganSachL)
@@ -172,23 +185,46 @@ namespace BUS
             }
         }
 
-       
+
         //check start date
         public static bool IsValidTSTART(DateTime NgayBatDau)
         {
-            if (NgayBatDau == null || NgayBatDau >= DateTime.Now)
+            if (NgayBatDau == null)
                 return false;
             else
                 return true;
         }
-        
+
         //check end date 
         public static bool IsValidTEND(DateTime NgayKetThuc)
         {
-            if (NgayKetThuc == null || NgayKetThuc >= DateTime.Now)
+            DateTime NgayBatDau;
+            if (NgayKetThuc == null)
                 return false;
             else
                 return true;
+        }
+
+        //TONG NGAN SACH
+        public long CalTongNganSach(BindingList<DTO_DuAn> table)
+        {
+            long res = 0;
+            foreach (DTO_DuAn pj in  table)
+            {
+                res += pj.NGANSACH;
+            }    
+            return res;
+        }
+
+        //TONG DA DUNG
+        public long CalTongDaDung(BindingList<DTO_DuAn> table)
+        {
+            long res = 0;
+            foreach (DTO_DuAn pj in table)
+            {
+                res += pj.DADUNG;
+            }
+            return res;
         }
     }
 }

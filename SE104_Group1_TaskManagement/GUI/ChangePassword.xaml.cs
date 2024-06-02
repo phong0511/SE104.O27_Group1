@@ -43,7 +43,7 @@ namespace GUI
         {
             if (mode == 1)
             {
-                (string, DTO_TaiKhoan) newTk = tkManager.ChangeInfo(LoginWindow.crnUser.EMAIL, recoverText.Text, newPassText.Password);
+                (string, DTO_TaiKhoan) newTk = tkManager.ChangePassWord(LoginWindow.crnUser.EMAIL, recoverText.Text, newPassText.Password);
                 if (newTk.Item2.MANV!="")
                 {
                     LoginWindow.crnUser = newTk.Item2;
