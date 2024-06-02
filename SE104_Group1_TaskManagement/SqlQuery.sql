@@ -302,3 +302,59 @@ BEGIN
     -- Trả về thông báo thành công
     SELECT 'Đổi mật khẩu thành công' AS Result
 END
+
+
+-- Tạo trigger để cập nhật tổng ngân sách đã dùng
+CREATE OR ALTER TRIGGER trg_CapNhatDADUNG
+ON CONGVIEC
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    -- Khai báo biến để lưu trữ mã dự án
+    DECLARE @MADA CHAR(4);
+
+    -- Lấy mã dự án từ các hàng được chèn, cập nhật hoặc xóa
+    SELECT @MADA = MADA
+    FROM inserted
+
+    -- Cập nhật cột DADUNG trong bảng DUAN
+    UPDATE DUAN
+    SET DADUNG = (
+        SELECT SUM(DADUNG)
+        FROM CONGVIEC
+        WHERE CONGVIEC.MADA = @MADA
+    )
+    WHERE DUAN.MADA = @MADA;
+END;
+
+
+-- Kiểm tra ngân sách đã dùng của công việc với ngân sách của dự án
+CREATE OR ALTER TRIGGER Check_DaDung_CongViec_Ngansach
+ON DUAN
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    -- Khai báo biến để lưu trữ NGANSACH của DUAN
+    DECLARE @DuanNgansach INT;
+
+    -- Lấy NGANSACH của DUAN
+    SELECT @DuanNgansach = NGANSACH FROM DUAN WHERE MADA IN (SELECT MADA FROM inserted);
+
+    -- Kiểm tra tổng NGANSACH của CÔNG VIỆC so với NGANSACH của DỰ ÁN
+    IF EXISTS (
+        SELECT 1
+        FROM inserted i
+        INNER JOIN (
+            SELECT MADA, SUM(DADUNG) AS TotalDaDung
+            FROM CONGVIEC
+            GROUP BY MADA
+        ) cv ON i.MADA = cv.MADA
+        WHERE cv.TotalDaDung > @DuanNgansach
+    )
+    BEGIN
+        DECLARE @ErrorMessage NVARCHAR(100);
+        SET @ErrorMessage = N'Tổng tiền đã dùng cho công việc không được vượt quá ' + CAST(@DuanNgansach AS NVARCHAR(10));
+        RAISERROR (@ErrorMessage, 16, 1);
+        ROLLBACK TRANSACTION;
+    END;
+END;
